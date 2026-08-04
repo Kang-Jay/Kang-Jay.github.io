@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aether Lane - four AI, interaction and spatial computing projects." />
+  <title>Galaxy Home | Aether Lane Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="castle-portfolio.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { 'brand-blue': '#8F9EFF', 'brand-navy': '#271C40', 'brand-dark': '#020319' },
+          fontFamily: { sans: ['Inter Tight', 'system-ui', 'sans-serif'] },
+          keyframes: {
+            marquee: { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-50%)' } },
+            'marquee-reverse': { '0%': { transform: 'translateX(-50%)' }, '100%': { transform: 'translateX(0%)' } }
+          },
+          animation: { marquee: 'marquee 30s linear infinite', 'marquee-reverse': 'marquee-reverse 30s linear infinite' }
+        }
+      }
+    };
+  </script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@12.23.12/dist/framer-motion.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    html { scroll-behavior: smooth; background: #020319; }
+    body { margin: 0; font-family: 'Inter Tight', system-ui, sans-serif; overflow-x: clip; background: #020319; }
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    ::selection { background: #8F9EFF; color: #020319; }
+    .glass-cta { background: linear-gradient(180deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.10) 76%),radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.7) 0%,transparent 100%),#BEC7FF; }
+    .hero-title { background-image: linear-gradient(to bottom,#A8B4FF,#FFFFFF); filter: drop-shadow(0 16px 44px rgba(26,19,82,.28)); opacity:.68; }
+    .text-shadow { text-shadow: 2px 4px 26px rgba(0,0,0,.56); }
+    .project-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg,transparent 38%,rgba(2,3,25,.92)); pointer-events: none; }
+    .project-card:focus-visible { outline: 2px solid #BEC7FF; outline-offset: 6px; }
+    .noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
+    .castle-world { position:relative; height:620vh; background:#020319; }
+    .castle-world__stage { position:fixed; z-index:30; inset:0; height:100vh; min-height:620px; overflow:hidden; isolation:isolate; transition:opacity .28s ease,visibility .28s; }
+    .castle-world__stage.is-past { opacity:0; visibility:hidden; pointer-events:none; }
+    #root { position:relative; z-index:40; }
+    .castle-world__backdrop { position:absolute; inset:-5%; width:110%; height:110%; object-fit:cover; opacity:.42; filter:blur(7px) saturate(.88); transform:translate3d(0,var(--castle-bg-y,0),0) scale(1.04); }
+    .castle-world__veil { position:absolute; inset:0; background:radial-gradient(circle at 62% 48%,transparent 8%,rgba(2,3,25,.2) 46%,rgba(2,3,25,.82) 100%),linear-gradient(180deg,rgba(2,3,25,.08),rgba(2,3,25,.55)); }
+    #castle-video { position:absolute; inset:0; z-index:2; width:100%; height:100%; object-fit:cover; object-position:center; background:#020319; filter:saturate(1.04) contrast(1.02); }
+    .castle-ui { transition:opacity .28s ease,visibility .28s; }
+    .castle-ui.is-past { opacity:0; visibility:hidden; pointer-events:none; }
+    .scene-vignette { background:radial-gradient(ellipse at 50% 54%,transparent 18%,rgba(3,3,34,.13) 55%,rgba(2,3,25,.68) 100%),linear-gradient(180deg,rgba(2,3,25,.04),rgba(2,3,25,.62)); }
+    .scene-loader { transition:opacity .7s ease,transform .7s ease; }
+    .scene-loader.is-loaded { opacity:0; transform:translateY(8px); pointer-events:none; }
+    .project-orbit { position:absolute; z-index:40; left:50%; top:calc(100vh - 7.5rem); width:min(92vw,920px); transform:translateX(-50%); display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.5rem; padding:0 .5rem; }
+    .project-orbit a { display:block; border:1px solid rgba(255,255,255,.25); border-radius:1rem; padding:.72rem 1rem; color:white; text-decoration:none; background:rgba(22,13,67,.46); backdrop-filter:blur(18px); box-shadow:0 16px 35px rgba(8,3,35,.14); transition:background .3s ease,border-color .3s ease,transform .3s ease; }
+    .project-orbit a:hover { background:rgba(143,158,255,.22); border-color:rgba(255,255,255,.6); transform:translateY(-3px); }
+    .project-orbit span { display:block; font-size:9px; letter-spacing:.18em; color:rgba(255,255,255,.55); }
+    .project-orbit b { display:block; margin-top:.28rem; font-size:14px; font-weight:500; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+    }
+    @media (max-width:700px) { .project-orbit { grid-template-columns:repeat(2,minmax(0,1fr)); top:calc(100vh - 10rem); } .project-orbit a { padding:.55rem .75rem; } #estate-scene { transform:scale(1.12); } }
+  </style>
+</head>
+<body>
+  <section class="castle-world" id="home" aria-label="Aether Lane interactive castle portfolio">
+    <div class="castle-world__stage">
+      <img class="castle-world__backdrop" src="assets/sky-estate/sky-source.png" alt="" aria-hidden="true">
+      <div class="castle-world__veil" aria-hidden="true"></div>
+      <video id="castle-video" aria-hidden="true" muted playsinline preload="metadata" poster="assets/sky-estate/sky-source.png" data-src="assets/sky-estate/video/portfolio-castle-four-projects-final.mp4"></video>
+      <div id="castle-ui-root"></div>
+    </div>
+  </section>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useEffect, useRef, useState } = React;
+    const { motion, AnimatePresence, useInView, useScroll, useTransform } = Motion;
+
+    const SKY = 'assets/sky-estate/sky-source.png';
+    const BUILDING = 'assets/sky-estate/building-source.png';
+    const MOUNTAIN = 'assets/sky-estate/mountain-source.png';
+
+    const projects = [
+      { no:'01', title:'Vibe Farming', cn:'空间化智慧农场', tag:'AI × AGRICULTURE', href:'vibefarming_html/index-hybrid.html', image:'final_pdf/imdt_assets/vibe-game-farm.png', copy:'将真实农情、空间地块与自然语言任务聚合为可行动的数字工作台。', accent:'#B9DF72' },
+      { no:'02', title:'视界之声', cn:'多模态生活助手', tag:'ACCESSIBILITY × VISION', href:'index-VisionVoice.html', image:'final_pdf/imdt_assets/vision-life-assistant.jpg', copy:'面向视障用户，把视觉感知、空间解释与语音反馈组织成低负担的日常入口。', accent:'#B9C5FF' },
+      { no:'03', title:'具身 Agent', cn:'可验证自主执行', tag:'EMBODIED AI × MEMORY', href:'index-Embodied-Agent.html', image:'final_pdf/imdt_assets/agent-hero.png', copy:'让语言模型在三维环境中看见、规划、执行、验证，并在失败后重新决策。', accent:'#E5A6FF' },
+      { no:'04', title:'混元 VLN', cn:'生成世界导航研究', tag:'SPATIAL AI × SIMULATION', href:'index-Hunyuan-VLN.html', image:'final_pdf/imdt_assets/hunyuan-hero.png', copy:'连接生成场景、仿真控制与视觉语言导航，建立可评估的空间研究管线。', accent:'#95DBF8' }
+    ];
+
+    function CloverLogo(){
+      return <svg viewBox="0 0 256 256" className="h-6 w-6 md:h-7 md:w-7 fill-white" aria-hidden="true"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z"/></svg>;
+    }
+
+    function CTA({large=false}){
+      return <motion.a href="#projects" whileHover={{scale:1.05}} whileTap={{scale:.98}} className={`glass-cta inline-flex items-center justify-center rounded-full border border-white/80 font-medium text-brand-navy/80 drop-shadow-sm ${large?'px-8 sm:px-10 py-2.5 sm:py-3 text-base sm:text-lg':'px-5 md:px-6 py-2 text-sm md:text-[15px]'}`}>Explore projects</motion.a>;
+    }
+
+    function Navbar(){
+      const [open,setOpen]=useState(false);
+      const links=['Home','About','Projects','Process','Inquire'];
+      return <>
+        <div className="fixed inset-x-0 top-0 z-[60] flex justify-center px-4 pt-4 md:pt-6">
+          <nav className="flex items-center gap-4 rounded-full bg-[#312D7C]/40 px-4 py-3 backdrop-blur-[15px] md:gap-8 lg:gap-20 border border-white/10 shadow-[0_12px_45px_rgba(0,0,0,.18)]">
+            <a href="#home" className="flex items-center gap-2 text-white"><CloverLogo/><span className="whitespace-nowrap text-base font-medium md:text-xl">Aether Lane</span></a>
+            <div className="hidden items-center gap-6 md:flex">{links.map((l,i)=><a key={l} href={`#${l.toLowerCase()}`} className={`text-sm transition-colors ${i===0?'text-white':'text-[#B6B8C3] hover:text-white'}`}>{l}</a>)}</div>
+            <div className="hidden md:block"><CTA/></div>
+            <button onClick={()=>setOpen(!open)} className="relative z-[70] h-9 w-9 md:hidden" aria-label={open?'Close menu':'Open menu'} aria-expanded={open}>
+              {[0,1,2].map(i=><motion.span key={i} className="absolute left-2 h-px w-5 bg-white" animate={open?{rotate:i===0?45:i===2?-45:0,y:i===0?7:i===2?-7:0,opacity:i===1?0:1}:{rotate:0,y:0,opacity:1}} style={{top:10+i*7}}/>)}
+            </button>
+          </nav>
+        </div>
+        <AnimatePresence>{open&&<motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="fixed inset-0 z-[55] flex items-center justify-center bg-brand-dark/95 backdrop-blur-xl md:hidden"><div className="flex flex-col items-center gap-7">{links.map((l,i)=><motion.a key={l} href={`#${l.toLowerCase()}`} onClick={()=>setOpen(false)} initial={{opacity:0,y:24,filter:'blur(8px)'}} animate={{opacity:1,y:0,filter:'blur(0px)'}} transition={{delay:.08*i}} className="text-4xl font-medium text-white">{l}</motion.a>)}</div></motion.div>}</AnimatePresence>
+      </>;
+    }
+
+    function Hero(){
+      const ref=useRef(null); const {scrollYProgress}=useScroll({target:ref,offset:['start start','end start']}); const bgY=useTransform(scrollYProgress,[0,1],['0%','8%']);
+      return <section ref={ref} id="home" className="relative z-10 h-screen min-h-[650px] w-full overflow-hidden bg-brand-dark">
+        <motion.img src={SKY} alt="Cosmic sky above a future city" className="absolute inset-0 z-0 h-[120%] w-full object-cover" style={{y:bgY}}/>
+        <div className="noise absolute inset-0 z-[5] opacity-[.08] mix-blend-soft-light"/>
+        <div className="absolute inset-x-0 top-0 z-10 flex justify-center pt-[22vh] md:pt-32 lg:pt-36"><motion.h1 initial={{opacity:0,y:40}} animate={{opacity:1,y:0}} transition={{duration:1,ease:[.16,1,.3,1]}} className="hero-title flex flex-col items-center bg-clip-text text-[17vw] font-semibold leading-[.86] text-transparent mix-blend-lighten md:block md:whitespace-nowrap md:text-[clamp(3rem,14vw,14rem)] md:leading-none"><span>Galaxy</span><span className="md:ml-[.28em]">Home</span></motion.h1></div>
+        <p className="absolute left-6 top-[200px] z-20 hidden text-lg font-medium text-white/70 mix-blend-overlay md:left-12 md:top-[320px] md:block md:text-[22px] md:leading-6 lg:left-24">Four systems.<br/>One design position.</p>
+        <p className="absolute right-6 top-[200px] z-20 hidden text-right text-lg font-medium text-white md:right-12 md:top-[320px] md:block md:text-[22px] md:leading-6 lg:right-24">AI that understands context<br/>and triggers action.</p>
+        <canvas id="estate-scene" aria-label="Interactive 3D mountain home generated with Meshy"/>
+        <div className="scene-vignette pointer-events-none absolute inset-0 z-20"/>
+        <div className="scene-loader absolute left-1/2 top-[58%] z-40 -translate-x-1/2 rounded-full border border-white/20 bg-[#120b3b]/55 px-4 py-2 text-[9px] tracking-[.2em] text-white/70 backdrop-blur-xl"><strong>BUILDING WORLD</strong></div>
+        <div className="absolute bottom-7 left-1/2 z-40 -translate-x-1/2 text-center text-[9px] uppercase tracking-[.24em] text-white/55">Move to orbit · Scroll to explore</div>
+      </section>;
+    }
+
+    function RevealChar({char,index,total,progress}){ const center=index/total; const opacity=useTransform(progress,[Math.max(0,center-.01),Math.min(1,center+.01)],[.25,1]); return <motion.span style={{opacity}}>{char}</motion.span>; }
+    function TextFill(){
+      const ref=useRef(null); const text='We design AI as a continuous medium of perception, judgment, action, and feedback. Across agriculture, accessibility, embodied agents, and spatial navigation, every project turns intelligence into an experience that can be understood, executed, and verified.'; const {scrollYProgress}=useScroll({target:ref,offset:['start .8','end .2']});
+      return <div ref={ref} id="about" className="mx-auto max-w-[920px] px-5 pb-16 pt-8 text-center text-xl font-medium leading-snug tracking-tight text-white sm:px-6 sm:pb-24 sm:pt-12 sm:text-2xl md:px-12 md:text-[40px] md:leading-[48px]">{Array.from(text).map((c,i)=><RevealChar key={i} char={c} index={i} total={text.length} progress={scrollYProgress}/>)}</div>;
+    }
+
+    function LogoMarquee(){
+      const rows=[[['sparkles','Perception'],['waves','Interaction'],['star','Evidence']],[['zap','Action'],['orbit','Space'],['gem','Experience']]];
+      return <div className="mx-auto max-w-[920px] overflow-hidden py-4 sm:py-6">{rows.map((row,r)=><div key={r} className="mb-6 flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"><div className={`flex min-w-max gap-8 sm:gap-12 ${r?'animate-marquee-reverse':'animate-marquee'}`}>{[...row,...row,...row,...row].map(([icon,name],i)=><div key={i} className="flex items-center gap-2 text-white/90"><i data-lucide={icon} className="h-4 w-4 text-white/80 sm:h-5 sm:w-5"></i><span className="whitespace-nowrap text-sm font-medium sm:text-base">{name}</span></div>)}</div></div>)}</div>;
+    }
+
+    function ProjectCard({p,index}){
+      return <motion.a href={p.href} className={`project-card group relative block min-h-[520px] overflow-hidden border-y border-white/15 md:min-h-[640px] ${index%2?'md:translate-y-24':''}`} initial={{opacity:0,y:50}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:.8,ease:[.16,1,.3,1]}}>
+        <div className="project-media absolute inset-0"><motion.img src={p.image} alt={`${p.title} project`} className="h-full w-full object-cover opacity-80 transition duration-700 group-hover:scale-[1.04] group-hover:opacity-100" whileHover={{scale:1.035}}/></div>
+        <div className="absolute inset-x-0 bottom-0 z-10 p-6 sm:p-8 lg:p-10">
+          <div className="mb-5 flex items-center justify-between text-xs font-medium tracking-[.18em] text-white/65"><span>{p.no} / 04</span><span>{p.tag}</span></div>
+          <div className="h-px w-full bg-white/20"/>
+          <h3 className="mt-6 text-4xl font-semibold text-white sm:text-5xl lg:text-6xl">{p.title}</h3><p style={{color:p.accent}} className="mt-2 text-base font-medium sm:text-lg">{p.cn}</p><p className="mt-5 max-w-lg text-sm leading-relaxed text-white/70 sm:text-base">{p.copy}</p>
+        </div>
+      </motion.a>;
+    }
+
+    function Projects(){ return <section id="projects" className="relative mx-auto max-w-7xl px-5 pb-40 pt-20 sm:px-8 lg:px-12"><div className="mb-12 flex items-end justify-between"><div><p className="text-xs font-semibold uppercase tracking-[.22em] text-brand-blue">Selected work / 2026</p><h2 className="mt-3 text-4xl font-medium text-white sm:text-6xl">Four project orbits</h2></div><p className="hidden max-w-xs text-right text-sm leading-relaxed text-white/50 md:block">From interface design to embodied intelligence and spatial verification.</p></div><div className="grid gap-px bg-white/15 md:grid-cols-2">{projects.map((p,i)=><ProjectCard key={p.no} p={p} index={i}/>)}</div></section>; }
+
+    function Stats(){
+      const ref=useRef(null); const seen=useInView(ref,{once:true,margin:'-100px'}); const stats=[['04','Featured Projects'],['08','Vibe Field Plots'],['64','Agent Tests'],['00','DWA Collisions']];
+      return <section ref={ref} id="process" className="relative overflow-hidden px-5 py-16 sm:px-6 md:py-32"><div className="absolute -top-[400px] inset-x-0 bottom-0 bg-gradient-to-b from-transparent via-white/60 to-white"/><div className="relative z-10"><h2 className="mb-10 text-center text-2xl font-medium text-brand-navy sm:mb-16 md:text-[40px] md:leading-[44px]">Only verified outcomes belong here</h2><div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 md:flex md:items-center md:justify-center">{stats.map((s,i)=><React.Fragment key={s[1]}><motion.div initial={{opacity:0,y:30}} animate={seen?{opacity:1,y:0}:{}} transition={{delay:.15*i,duration:.6}} className="min-w-[150px] text-center"><div className="text-4xl font-semibold text-brand-navy sm:text-5xl md:text-[64px] md:leading-[76px]">{s[0]}</div><div className="text-sm font-medium text-brand-navy/70 sm:text-base md:text-xl">{s[1]}</div></motion.div>{i<stats.length-1&&<div className="hidden h-[80px] w-px bg-brand-navy/20 md:block md:mx-8 lg:mx-12"/>}</React.Fragment>)}</div></div></section>;
+    }
+
+    function MountainContent(){
+      const ref=useRef(null); const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']}); const y=useTransform(scrollYProgress,[0,1],['0%','-20%']);
+      return <div ref={ref} className="relative z-40 overflow-hidden bg-[#100b39]"><div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#40318c_0%,#171044_38%,#020319_78%)]"/><motion.img src={MOUNTAIN} alt="Mountain landscape" className="absolute inset-0 h-[112%] w-full object-cover object-top opacity-90" style={{y}}/><div className="absolute inset-0 bg-gradient-to-b from-brand-dark/20 via-brand-dark/30 to-brand-dark"/><div className="relative z-10 pt-12 sm:pt-20 md:pt-28"><div className="flex flex-col items-center px-5 py-16 text-center sm:px-6 md:py-24"><p className="text-shadow w-full max-w-[620px] break-words text-sm font-medium leading-relaxed text-white/90 sm:text-base md:text-lg">Explore four projects across AI agriculture, accessible interaction, embodied agency, and vision-language navigation — presented as one continuous design position.</p><div className="mt-6 sm:mt-7"><CTA large/></div></div><TextFill/><LogoMarquee/><Projects/><Stats/></div></div>;
+    }
+
+    function App(){ useEffect(()=>{ lucide.createIcons(); },[]); return <div className="min-h-screen bg-brand-dark"><MountainContent/><footer id="inquire" className="border-t border-white/10 bg-brand-dark px-6 py-12 text-white"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 sm:flex-row sm:items-end"><div><div className="flex items-center gap-3"><CloverLogo/><span className="text-2xl font-medium">Aether Lane</span></div><p className="mt-3 max-w-md text-sm text-white/50">Interaction media, AI systems, and spatial intelligence portfolio.</p></div><a href="#home" className="text-sm text-white/60 transition hover:text-white">Back to orbit ↑</a></div></footer></div>; }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  </script>
+  <script type="module" src="castle-sequence-player.js?v=video-6"></script>
+</body>
+</html>
