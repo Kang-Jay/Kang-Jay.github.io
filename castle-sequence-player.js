@@ -25,7 +25,6 @@ async function boot() {
   let ready = false;
   let seekQueued = false;
   let scrollRaf = 0;
-  let objectUrl = '';
 
   video.pause();
   const markReady = () => {
@@ -46,15 +45,12 @@ async function boot() {
     if (seekQueued) syncVideo();
   });
 
-  try {
-    const source = video.dataset.src;
-    const mediaResponse = await fetch(source);
-    if (!mediaResponse.ok) throw new Error(`Video request failed: ${mediaResponse.status}`);
-    objectUrl = URL.createObjectURL(await mediaResponse.blob());
-    video.src = objectUrl;
+  const source = video.dataset.src;
+  if (source) {
+    video.src = source;
     video.load();
-  } catch (reason) {
-    markError(reason);
+  } else {
+    markError();
   }
 
   function syncVideo() {
@@ -139,6 +135,5 @@ async function boot() {
   setChapter(CASTLE_CHAPTERS[0]);
   addEventListener('pagehide', () => {
     cancelAnimationFrame(scrollRaf);
-    if (objectUrl) URL.revokeObjectURL(objectUrl);
   }, { once: true });
 }
