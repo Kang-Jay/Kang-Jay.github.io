@@ -101,9 +101,9 @@
         <a class="fallback__download" href="https://github.com/Kang-Jay/Kang-Jay.github.io/releases/download/portfolio-v2026-08-06/Kang-Jiayue-Portfolio.pdf" download="Kang-Jiayue-Portfolio.pdf">Download portfolio ↓</a>
       </header>
       <section class="fallback__projects" id="projects" aria-labelledby="fallback-title">
-        <p class="fallback__eyebrow">Selected work / 2026</p>
-        <h1 id="fallback-title">Four project orbits</h1>
-        <p class="fallback__copy">Projects across AI agriculture, accessible interaction, embodied agency, and vision-language navigation.</p>
+        <p class="fallback__eyebrow">Embodied intelligence × interactive art</p>
+        <h1 id="fallback-title">Four ways intelligence meets the world</h1>
+        <p class="fallback__copy">Four experiments in perception, human–AI interaction, situated decision-making and embodied action.</p>
         <nav class="fallback__grid" aria-label="All projects">
           <a href="vibefarming_html/index-hybrid.html"><span>01 · AI × Agriculture</span><strong>Vibe Farming</strong><small>空间化智慧农场</small></a>
           <a href="index-VisionVoice.html"><span>02 · Accessibility × Vision</span><strong>视界之声</strong><small>多模态生活助手</small></a>
@@ -192,11 +192,11 @@
       </motion.a>;
     }
 
-    function Projects(){ return <section id="projects" className="relative mx-auto max-w-7xl px-5 pb-40 pt-20 sm:px-8 lg:px-12"><div className="mb-12 flex items-end justify-between"><div><p className="text-xs font-semibold uppercase tracking-[.22em] text-brand-blue">Selected work / 2026</p><h2 className="mt-3 text-4xl font-medium text-white sm:text-6xl">Four project orbits</h2></div><p className="hidden max-w-xs text-right text-sm leading-relaxed text-white/50 md:block">From interface design to embodied intelligence and spatial verification.</p></div><div className="grid gap-px bg-white/15 md:grid-cols-2">{projects.map((p,i)=><ProjectCard key={p.no} p={p} index={i}/>)}</div></section>; }
+    function Projects(){ return <section id="projects" className="relative mx-auto max-w-7xl px-5 pb-40 pt-20 sm:px-8 lg:px-12"><div className="mb-12 flex items-end justify-between"><div><p className="text-xs font-semibold uppercase tracking-[.22em] text-brand-blue">Embodied intelligence × interactive art</p><h2 className="mt-3 text-4xl font-medium text-white sm:text-6xl">Four ways intelligence meets the world</h2></div><p className="hidden max-w-xs text-right text-sm leading-relaxed text-white/50 md:block">From sensing and dialogue to situated decisions and embodied action.</p></div><div className="grid gap-px bg-white/15 md:grid-cols-2">{projects.map((p,i)=><ProjectCard key={p.no} p={p} index={i}/>)}</div></section>; }
 
     function Stats(){
-      const ref=useRef(null); const seen=useInView(ref,{once:true,margin:'-100px'}); const stats=[['04','Featured Projects'],['08','Vibe Field Plots'],['64','Agent Tests'],['00','DWA Collisions']];
-      return <section ref={ref} id="process" className="relative overflow-hidden px-5 py-16 sm:px-6 md:py-32"><div className="absolute -top-[400px] inset-x-0 bottom-0 bg-gradient-to-b from-transparent via-white/60 to-white"/><div className="relative z-10"><h2 className="mb-10 text-center text-2xl font-medium text-brand-navy sm:mb-16 md:text-[40px] md:leading-[44px]">Only verified outcomes belong here</h2><div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 md:flex md:items-center md:justify-center">{stats.map((s,i)=><React.Fragment key={s[1]}><motion.div initial={{opacity:0,y:30}} animate={seen?{opacity:1,y:0}:{}} transition={{delay:.15*i,duration:.6}} className="min-w-[150px] text-center"><div className="text-4xl font-semibold text-brand-navy sm:text-5xl md:text-[64px] md:leading-[76px]">{s[0]}</div><div className="text-sm font-medium text-brand-navy/70 sm:text-base md:text-xl">{s[1]}</div></motion.div>{i<stats.length-1&&<div className="hidden h-[80px] w-px bg-brand-navy/20 md:block md:mx-8 lg:mx-12"/>}</React.Fragment>)}</div></div></section>;
+      const ref=useRef(null); const seen=useInView(ref,{once:true,margin:'-100px'}); const stats=[['01','Perceive'],['02','Interact'],['03','Decide'],['04','Act']];
+      return <section ref={ref} id="process" className="relative overflow-hidden px-5 py-16 sm:px-6 md:py-32"><div className="absolute -top-[400px] inset-x-0 bottom-0 bg-gradient-to-b from-transparent via-white/60 to-white"/><div className="relative z-10"><h2 className="mb-10 text-center text-2xl font-medium text-brand-navy sm:mb-16 md:text-[40px] md:leading-[44px]">From sensing the world to acting within it</h2><div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 md:flex md:items-center md:justify-center">{stats.map((s,i)=><React.Fragment key={s[1]}><motion.div initial={{opacity:0,y:30}} animate={seen?{opacity:1,y:0}:{}} transition={{delay:.15*i,duration:.6}} className="min-w-[150px] text-center"><div className="text-4xl font-semibold text-brand-navy sm:text-5xl md:text-[64px] md:leading-[76px]">{s[0]}</div><div className="text-sm font-medium text-brand-navy/70 sm:text-base md:text-xl">{s[1]}</div></motion.div>{i<stats.length-1&&<div className="hidden h-[80px] w-px bg-brand-navy/20 md:block md:mx-8 lg:mx-12"/>}</React.Fragment>)}</div></div></section>;
     }
 
     function MountainContent(){
@@ -207,6 +207,6 @@
     function App(){ useEffect(()=>{ lucide.createIcons(); if(location.hash==='#projects') requestAnimationFrame(()=>document.querySelector('#projects')?.scrollIntoView()); },[]); return <div className="min-h-screen bg-brand-dark"><MountainContent/><footer id="inquire" className="border-t border-white/10 bg-brand-dark px-6 py-12 text-white"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 sm:flex-row sm:items-end"><div><div className="flex items-center gap-3"><CloverLogo/><span className="text-2xl font-medium">kangjay</span></div><p className="mt-3 max-w-md text-sm text-white/50">Portfolio across AI systems, interaction design, and spatial intelligence.</p></div><a href="#home" className="text-sm text-white/60 transition hover:text-white">Back to orbit ↑</a></div></footer></div>; }
     ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   </script>
-  <script type="module" src="castle-sequence-player.js?v=autoplay-1"></script>
+  <script type="module" src="castle-sequence-player.js?v=theme-2"></script>
 </body>
 </html>

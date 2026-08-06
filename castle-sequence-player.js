@@ -10,7 +10,7 @@ if (world && stage && video && uiRoot) boot();
 
 async function boot() {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const response = await fetch('./castle-portfolio-fragment.html');
+  const response = await fetch('./castle-portfolio-fragment.html?v=theme-2');
   uiRoot.innerHTML = await response.text();
 
   const ui = uiRoot.querySelector('[data-castle-ui]');
@@ -24,6 +24,7 @@ async function boot() {
   let active = -1;
   let ready = false;
   let scrollRaf = 0;
+  let journeyRaf = 0;
 
   video.pause();
   const markReady = () => {
@@ -49,7 +50,7 @@ async function boot() {
   }
 
   function syncVideo() {
-    if (!ready) return;
+    if (!ready || journeyRaf) return;
     const next = Math.max(0, Math.min(duration - 0.01, targetTime));
     if (Math.abs(video.currentTime - next) > 1 / 24) video.currentTime = next;
   }
@@ -98,10 +99,48 @@ async function boot() {
     });
   }
 
+  function stopJourney() {
+    cancelAnimationFrame(journeyRaf);
+    journeyRaf = 0;
+    video.pause();
+  }
+
+  function playJourney() {
+    if (!ready) {
+      video.addEventListener('loadedmetadata', playJourney, { once: true });
+      return;
+    }
+    if (reduced) {
+      jump(CASTLE_CHAPTERS.length - 1);
+      return;
+    }
+    stopJourney();
+    const top = world.offsetTop;
+    const distance = Math.max(1, world.offsetHeight - innerHeight);
+    scrollTo({ top, behavior: 'auto' });
+    video.currentTime = 0;
+    video.play().catch(() => {});
+    const started = performance.now();
+    const frame = (now) => {
+      const progress = Math.min(1, (now - started) / (duration * 1000));
+      scrollTo(0, top + progress * distance);
+      if (progress < 1) journeyRaf = requestAnimationFrame(frame);
+      else stopJourney();
+    };
+    journeyRaf = requestAnimationFrame(frame);
+  }
+
   uiRoot.addEventListener('click', (event) => {
+    const play = event.target.closest('[data-castle-play]');
+    if (play) {
+      event.preventDefault();
+      playJourney();
+      return;
+    }
     const direct = event.target.closest('[data-castle-jump]');
     if (direct) {
       event.preventDefault();
+      stopJourney();
       jump(Number(direct.dataset.castleJump));
       return;
     }
@@ -110,6 +149,7 @@ async function boot() {
     const index = CASTLE_CHAPTERS.findIndex((item) => anchor.getAttribute('href') === `#castle-${item.id}`);
     if (index < 0) return;
     event.preventDefault();
+    stopJourney();
     if (anchor.classList.contains('castle-ui__skip')) scrollTo({ top: world.offsetHeight, behavior: 'smooth' });
     else jump(index);
   });
@@ -121,9 +161,12 @@ async function boot() {
       read();
     });
   }, { passive: true });
+  addEventListener('wheel', stopJourney, { passive: true });
+  addEventListener('touchstart', stopJourney, { passive: true });
   read();
   setChapter(CASTLE_CHAPTERS[0]);
   addEventListener('pagehide', () => {
     cancelAnimationFrame(scrollRaf);
+    stopJourney();
   }, { once: true });
 }
