@@ -41,7 +41,6 @@
     .project-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg,transparent 38%,rgba(2,3,25,.92)); pointer-events: none; }
     .project-card:focus-visible { outline: 2px solid #BEC7FF; outline-offset: 6px; }
     .noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
-    html.castle-intro-lock,html.castle-intro-lock body { height:100%; overflow:hidden; overscroll-behavior:none; }
     .castle-world { position:relative; height:620vh; background:#020319; }
     .castle-world__stage { position:fixed; z-index:30; inset:0; height:100vh; min-height:620px; overflow:hidden; isolation:isolate; transition:opacity .28s ease,visibility .28s; }
     .castle-world__stage.is-past { opacity:0; visibility:hidden; pointer-events:none; }
@@ -80,7 +79,6 @@
   </style>
 </head>
 <body>
-  <script>if (location.hash !== '#projects') document.documentElement.classList.add('castle-intro-lock');</script>
   <section class="castle-world" id="home" aria-label="Kang Jiayue AI and Interaction Design portfolio">
     <div class="castle-world__stage">
       <img class="castle-world__backdrop" src="assets/sky-estate/sky-source.png" alt="" aria-hidden="true">
