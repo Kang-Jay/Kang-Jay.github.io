@@ -98,7 +98,7 @@
     <main class="fallback">
       <header class="fallback__bar">
         <a class="fallback__brand" href="./index.html">kangjay</a>
-        <a class="fallback__download" href="final_pdf/kangjiayue-portfolio.pdf" download="Kang-Jiayue-Portfolio.pdf">Download portfolio ↓</a>
+        <a class="fallback__download" href="https://github.com/Kang-Jay/Kang-Jay.github.io/releases/download/portfolio-v2026-08-06/Kang-Jiayue-Portfolio.pdf" download="Kang-Jiayue-Portfolio.pdf">Download portfolio ↓</a>
       </header>
       <section class="fallback__projects" id="projects" aria-labelledby="fallback-title">
         <p class="fallback__eyebrow">Selected work / 2026</p>
@@ -134,7 +134,7 @@
     }
 
     function CTA({large=false,download=false}){
-      return <motion.a href={download?'final_pdf/kangjiayue-portfolio.pdf':'#projects'} download={download?'Kang-Jiayue-Portfolio.pdf':undefined} whileHover={{scale:1.05}} whileTap={{scale:.98}} className={`glass-cta inline-flex items-center justify-center rounded-full border border-white/80 font-medium text-brand-navy/80 drop-shadow-sm ${large?'px-8 sm:px-10 py-2.5 sm:py-3 text-base sm:text-lg':'px-5 md:px-6 py-2 text-sm md:text-[15px]'}`}>{download?'Download portfolio ↓':'Explore projects'}</motion.a>;
+      return <motion.a href={download?'https://github.com/Kang-Jay/Kang-Jay.github.io/releases/download/portfolio-v2026-08-06/Kang-Jiayue-Portfolio.pdf':'#projects'} download={download?'Kang-Jiayue-Portfolio.pdf':undefined} whileHover={{scale:1.05}} whileTap={{scale:.98}} className={`glass-cta inline-flex items-center justify-center rounded-full border border-white/80 font-medium text-brand-navy/80 drop-shadow-sm ${large?'px-8 sm:px-10 py-2.5 sm:py-3 text-base sm:text-lg':'px-5 md:px-6 py-2 text-sm md:text-[15px]'}`}>{download?'Download portfolio ↓':'Explore projects'}</motion.a>;
     }
 
     function Navbar(){
