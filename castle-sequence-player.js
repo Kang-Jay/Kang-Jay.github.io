@@ -23,7 +23,6 @@ async function boot() {
   let targetTime = 0;
   let active = -1;
   let ready = false;
-  let seekQueued = false;
   let scrollRaf = 0;
 
   video.pause();
@@ -41,10 +40,6 @@ async function boot() {
   };
   video.addEventListener('loadedmetadata', markReady, { once: true });
   video.addEventListener('error', markError, { once: true });
-  video.addEventListener('seeked', () => {
-    if (seekQueued) syncVideo();
-  });
-
   const source = video.dataset.src;
   if (source) {
     video.src = source;
@@ -55,13 +50,8 @@ async function boot() {
 
   function syncVideo() {
     if (!ready) return;
-    if (video.seeking) {
-      seekQueued = true;
-      return;
-    }
-    seekQueued = false;
     const next = Math.max(0, Math.min(duration - 0.01, targetTime));
-    if (Math.abs(video.currentTime - next) > 0.025) video.currentTime = next;
+    if (Math.abs(video.currentTime - next) > 1 / 24) video.currentTime = next;
   }
 
   function chapterAt(progress) {
