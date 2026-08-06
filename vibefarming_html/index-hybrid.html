@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="is-loading">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,9 +17,21 @@
       --line: rgba(244,240,223,.18);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
     html, body { margin: 0; min-height: 100%; background: #08100c; }
     body { display: grid; place-items: center; padding: 24px; overflow-x: auto; font-family: Arial, "Microsoft YaHei", sans-serif; }
     button { font: inherit; }
+    a:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+
+    .asset-loader { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 24px; color: var(--cream); background: #050b08; transition: opacity .35s ease, visibility .35s ease; }
+    .asset-loader.is-complete { opacity: 0; visibility: hidden; }
+    .loader-panel { width: min(520px, 86vw); }
+    .loader-copy { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; color: rgba(244,240,223,.62); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .loader-copy output { color: var(--lime); }
+    .loader-track { height: 3px; overflow: hidden; background: rgba(244,240,223,.14); }
+    .loader-track i { display: block; width: 0; height: 100%; background: linear-gradient(90deg,var(--mint),var(--lime),var(--orange)); transition: width .28s ease; }
+    .is-loading body { overflow: hidden; }
+    .is-loading body > :not(.asset-loader) { opacity: 0; visibility: hidden; }
     .spread {
       position: relative;
       width: min(calc(100vw - 48px), 2089px);
@@ -68,6 +80,7 @@
     #farm-3d:active { cursor: grabbing; }
     .network.is-3d #farm-3d { opacity: 1; }
     .network.is-3d .field, .network.is-3d .node-layer, .network.is-3d .orbit { opacity: 0; }
+    .network.is-fallback::after { content:"2D FIELD / READY"; position:absolute; right:2%; bottom:2%; z-index:6; padding:6px 8px; color:var(--lime); border:1px solid rgba(184,237,104,.3); background:rgba(5,24,18,.78); font-size:8px; font-weight:900; letter-spacing:.08em; }
     .field { position: absolute; inset: 13% 8% 6% 8%; display: grid; grid-template-columns: repeat(8,1fr); grid-template-rows: repeat(5,1fr); gap: 5px; transform: perspective(700px) rotateX(56deg) rotateZ(-8deg); transform-origin: center; }
     .plot { position: relative; border: 1px solid rgba(184,237,104,.34); background: rgba(34,85,60,.45); overflow: hidden; transition: background .2s ease, transform .2s ease; }
     .plot::before { content: ""; position: absolute; inset: 20% 8%; background: repeating-linear-gradient(90deg, transparent 0 7px, rgba(184,237,104,.16) 7px 9px); }
@@ -135,8 +148,7 @@
     @keyframes barGrow { 50% { transform: scaleY(.55); } }
     @keyframes matrix { 0%,70%,100% { background: rgba(6,27,20,.13); } 35% { background: var(--lime); } }
     @keyframes pulseCore { 50% { box-shadow: 0 0 0 8px rgba(6,27,20,.08); } }
-    @media (max-width: 960px) { body { display: block; padding: 12px; overflow-x: hidden; } .spread { width: 1200px; min-width: 1200px; transform-origin: top left; } }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 
     /* Live product story */
     body { display: block; padding: 24px; overflow-x: hidden; background: #050b08; }
@@ -172,10 +184,13 @@
     .shot:hover img { transform:scale(1.035); filter:brightness(1.08); }
     .shot figcaption { position:absolute; inset:auto 18px 18px; display:flex; justify-content:space-between; align-items:end; color:white; font-size:12px; text-shadow:0 2px 12px #000; }
     .shot figcaption b { font-size:clamp(18px,1.5vw,30px); }
-    @media(max-width:960px){ body{padding:12px}.live-story{width:100%;margin-top:12px}.story-hero{min-height:760px}.story-copy{width:100%;min-height:760px;padding:34px}.story-hero::after{background:linear-gradient(0deg,rgba(3,14,10,.98) 0%,rgba(3,14,10,.64) 58%,rgba(3,14,10,.15))}.story-video{object-position:62% center}.story-copy h2{font-size:64px}.reel-grid{grid-template-columns:1fr}.reel-media{min-height:520px;grid-row:1}.reel-notes{min-height:650px}.shot-grid{grid-template-columns:1fr}.shot:first-child{grid-column:auto}.shot{min-height:280px}}
+    @media(max-width:1180px){ body{padding:12px}.live-story{width:100%;margin-top:12px}.story-hero{min-height:760px}.story-copy{width:100%;min-height:760px;padding:34px}.story-hero::after{background:linear-gradient(0deg,rgba(3,14,10,.98) 0%,rgba(3,14,10,.64) 58%,rgba(3,14,10,.15))}.story-video{object-position:62% center}.story-copy h2{font-size:64px}.reel-grid{grid-template-columns:1fr}.reel-media{min-height:520px;grid-row:1}.reel-notes{min-height:650px}.shot-grid{grid-template-columns:1fr}.shot:first-child{grid-column:auto}.shot{min-height:280px}}
 
     /* Portfolio narrative refinements */
     .site-nav { width:min(calc(100vw - 48px),2089px); height:58px; margin:0 auto 18px; padding:0 20px; display:flex; align-items:center; justify-content:space-between; border:1px solid rgba(244,240,223,.16); color:var(--cream); background:rgba(5,18,13,.84); backdrop-filter:blur(16px); position:sticky; top:12px; z-index:80; }
+    .nav-identity { display:flex; align-items:center; gap:16px; min-width:max-content; }
+    .home-link { min-height:36px; display:inline-flex; align-items:center; padding:0 13px; border:1px solid rgba(184,237,104,.32); color:var(--lime); text-decoration:none; font-size:10px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; transition:background .18s ease,color .18s ease; }
+    .home-link:hover { color:var(--ink); background:var(--lime); }
     .brand { display:flex; align-items:center; gap:11px; color:inherit; text-decoration:none; font-size:13px; font-weight:900; }
     .brand-mark { width:20px; aspect-ratio:1; display:grid; grid-template-columns:1fr 1fr; gap:2px; transform:rotate(45deg); }
     .brand-mark i { background:var(--lime); }
@@ -184,14 +199,26 @@
     .nav-links a:hover,.nav-links a:focus-visible { color:var(--lime); }
     .nav-status { display:flex; align-items:center; gap:9px; color:var(--lime); font-size:10px; font-weight:800; }
     .nav-status::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--lime); box-shadow:0 0 0 5px rgba(184,237,104,.1); }
+    .project-document { width:min(calc(100vw - 48px),2089px); margin:0 auto 22px; color:var(--cream); }
+    .document-head { display:grid; grid-template-columns:.7fr 1.3fr auto; gap:clamp(24px,5vw,90px); align-items:end; padding:clamp(34px,4.5vw,84px); border:1px solid rgba(244,240,223,.16); background:linear-gradient(135deg,#08251b,#061b14 62%,#0c3022); }
+    .document-kicker { color:var(--lime); font-size:10px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; }
+    .document-head h1 { margin:0; font-size:clamp(36px,4.3vw,88px); line-height:.9; letter-spacing:-.045em; }
+    .document-meta { display:grid; gap:8px; color:rgba(244,240,223,.5); font-size:10px; font-weight:800; letter-spacing:.08em; text-align:right; text-transform:uppercase; }
+    .document-meta b { color:var(--cream); font-size:14px; }
+    .document-page { position:relative; margin:12px 0 0; overflow:hidden; border:1px solid rgba(244,240,223,.16); background:#0b1510; box-shadow:0 20px 50px rgba(0,0,0,.2); }
+    .document-page img { display:block; width:100%; aspect-ratio:25 / 9; object-fit:cover; }
+    .document-page figcaption { position:absolute; right:18px; bottom:16px; padding:8px 11px; color:rgba(244,240,223,.72); background:rgba(5,18,13,.78); border:1px solid rgba(244,240,223,.16); backdrop-filter:blur(10px); font-size:9px; font-weight:900; letter-spacing:.1em; }
+    .document-continuation { display:flex; justify-content:space-between; align-items:center; min-height:84px; margin-top:12px; padding:0 24px; border:1px solid rgba(244,240,223,.16); color:rgba(244,240,223,.52); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .document-continuation span { width:100%; min-width:0; line-height:1.5; overflow-wrap:anywhere; }
+    .document-continuation a { min-height:44px; display:inline-flex; align-items:center; padding:0 18px; color:var(--ink); background:var(--lime); text-decoration:none; }
     .scroll-cue { position:absolute; z-index:20; left:31.5%; bottom:2.4%; display:flex; gap:10px; align-items:center; color:rgba(6,27,20,.48); font-size:8px; font-weight:900; letter-spacing:.08em; }
     .scroll-cue::before { content:""; width:30px; border-top:1px solid currentColor; }
-    .chapter { cursor:pointer; }
+    .chapter { color:inherit; cursor:pointer; text-decoration:none; }
     .chapter::after { content:"VIEW"; position:absolute; right:6%; top:8%; color:rgba(6,27,20,.35); font-size:7px; font-weight:900; opacity:0; transform:translateX(-5px); transition:.2s ease; }
     .chapter:hover::after,.chapter:focus-visible::after { opacity:1; transform:none; }
     .narrative-head { display:grid; grid-template-columns:1fr 1.45fr; gap:8vw; padding:clamp(70px,9vw,160px) clamp(28px,6vw,120px); border:1px solid rgba(244,240,223,.16); border-bottom:0; }
     .narrative-head span { color:var(--lime); font-size:11px; font-weight:900; text-transform:uppercase; }
-    .narrative-head h2 { margin:0; max-width:950px; font-size:clamp(42px,5.8vw,116px); line-height:.9; }
+    .narrative-head h2 { margin:0; max-width:950px; font-size:clamp(42px,5.8vw,116px); line-height:.98; }
     .narrative-head p { align-self:end; max-width:560px; margin:0; color:rgba(244,240,223,.62); line-height:1.75; }
     .proof-strip { display:grid; grid-template-columns:repeat(4,1fr); margin-bottom:22px; border:1px solid rgba(244,240,223,.16); border-top:0; }
     .proof { min-height:155px; padding:28px; border-right:1px solid rgba(244,240,223,.16); }
@@ -205,19 +232,88 @@
     .loop-node::before { content:""; position:absolute; top:29px; left:50%; width:11px; height:11px; transform:translate(-50%,-50%); border-radius:50%; border:2px solid #68766d; background:#edebdf; z-index:2; }
     .loop-node.active { color:#0a2a20; }
     .loop-node.active::before { border-color:var(--orange); background:var(--orange); box-shadow:0 0 0 7px rgba(255,159,47,.16); }
+    .agent-panel { border-color:rgba(184,237,104,.25); background:linear-gradient(145deg,rgba(5,24,18,.94),rgba(9,43,30,.86)); box-shadow:0 18px 50px rgba(0,0,0,.26); }
+    .workload { margin-top:5%; padding:8px 9px; border:1px solid rgba(244,240,223,.12); background:rgba(244,240,223,.035); }
+    .workload-head,.workload-meta { display:flex; justify-content:space-between; align-items:center; color:rgba(244,240,223,.48); font-size:clamp(6px,.42vw,9px); }
+    .workload-head b { color:var(--lime); }
+    .workload-track { height:3px; margin:7px 0; overflow:hidden; background:rgba(244,240,223,.11); }
+    .workload-track i { display:block; width:72%; height:100%; background:linear-gradient(90deg,var(--mint),var(--lime)); }
+    .workload-meta span:last-child { color:var(--orange); }
+    .metric-row { margin-top:4%; }
+    .metric { border-top-color:rgba(184,237,104,.36); background:linear-gradient(180deg,rgba(184,237,104,.06),rgba(244,240,223,.025)); }
+    .decision { margin-top:4%; padding-top:4%; }
+    .decision-line { padding:5px 6px; border:1px solid rgba(244,240,223,.08); background:rgba(0,0,0,.08); }
+    .workflow-mini,.execution-preview { border-top:0; }
+    .workflow-mini { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; }
+    .workflow-step { position:relative; min-width:0; overflow:hidden; background:var(--ink); }
+    .workflow-step img { width:100%; height:100%; object-fit:cover; opacity:.56; filter:saturate(.7); }
+    .workflow-step::after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(6,27,20,.94),transparent 70%); }
+    .workflow-step b { position:absolute; z-index:2; left:7px; bottom:7px; color:var(--lime); font-size:clamp(6px,.46vw,10px); }
+    .workflow-step:nth-child(2) b { color:var(--cream); }
+    .workflow-step:nth-child(3) b { color:var(--orange); }
+    .execution-preview { grid-template-columns:1fr 1fr; padding-top:0; background:var(--ink); }
+    .execution-preview figure { position:relative; min-width:0; margin:0; overflow:hidden; }
+    .execution-preview img { width:100%; height:100%; object-fit:cover; opacity:.62; }
+    .execution-preview span { position:absolute; inset:auto 6px 6px; color:var(--cream); font-size:clamp(5px,.38vw,8px); font-weight:900; text-shadow:0 2px 8px #000; }
+    .execution-preview b { color:var(--lime); }
+    .reel-grid { grid-template-columns:minmax(340px,.82fr) minmax(0,1.18fr); }
+    .reel-notes { gap:34px; }
+    .reel-notes h3 { position:relative; padding-left:26px; }
+    .reel-notes h3::before { content:""; position:absolute; inset:0 auto 0 0; width:5px; background:linear-gradient(var(--mint) 0 33%,var(--orange) 33% 66%,var(--ink) 66%); }
+    .reel-media { display:flex; flex-direction:column; justify-content:center; gap:18px; padding:clamp(24px,3vw,56px); background:radial-gradient(circle at 80% 10%,rgba(184,237,104,.12),transparent 35%),#08251b; }
+    .screen-frame { position:relative; overflow:hidden; border:1px solid rgba(184,237,104,.28); box-shadow:0 28px 70px rgba(0,0,0,.35); }
+    .screen-frame img { display:block; width:100%; height:auto; aspect-ratio:16 / 9; object-fit:cover; }
+    .screen-frame::before { content:"LIVE / FIELD 07"; position:absolute; z-index:2; top:14px; left:14px; padding:7px 9px; color:var(--lime); background:rgba(5,24,18,.84); font-size:8px; font-weight:900; letter-spacing:.1em; }
+    .reel-proof-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .reel-proof { min-height:92px; padding:14px; border:1px solid rgba(244,240,223,.13); background:rgba(244,240,223,.035); }
+    .reel-proof span { color:var(--lime); font-size:9px; font-weight:900; letter-spacing:.1em; }
+    .reel-proof:nth-child(2) span { color:var(--cream); }
+    .reel-proof:nth-child(3) span { color:var(--orange); }
+    .reel-proof b,.reel-proof small { display:block; }
+    .reel-proof b { margin-top:10px; font-size:13px; }
+    .reel-proof small { margin-top:5px; color:rgba(244,240,223,.45); }
+    .outcome-head { display:grid; grid-template-columns:.7fr 1.3fr; gap:8vw; align-items:end; padding:clamp(54px,7vw,130px) clamp(28px,6vw,120px) 42px; border-inline:1px solid rgba(244,240,223,.16); }
+    .outcome-head span { color:var(--orange); font-size:10px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+    .outcome-head h3 { margin:0; max-width:900px; font-size:clamp(38px,4.6vw,92px); line-height:1; overflow-wrap:anywhere; }
+    .shot-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; margin-top:0; }
+    .shot,.shot:first-child { grid-column:auto; min-height:0; margin:0; background:#071c14; }
+    .shot img { display:block; width:100%; height:auto; aspect-ratio:16 / 9; object-fit:contain; }
+    .shot figcaption { position:static; min-height:78px; padding:17px 18px; color:var(--cream); border-top:1px solid rgba(244,240,223,.12); text-shadow:none; }
+    .shot figcaption b { font-size:clamp(15px,1.2vw,24px); }
     .chapter-tag { position:absolute; top:22px; right:22px; color:rgba(255,255,255,.68); font-size:9px; font-weight:900; letter-spacing:.08em; }
     .footer-line { display:flex; justify-content:space-between; padding:34px 0 12px; color:rgba(244,240,223,.4); font-size:10px; text-transform:uppercase; }
-    @media(max-width:960px){
-      body{padding:12px}.site-nav{width:100%;top:8px;margin-bottom:12px}.nav-links{display:none}.spread{width:100%;min-width:0;aspect-ratio:auto;display:flex;flex-direction:column;overflow:visible}.spread::before,.fold,.safe,.scroll-cue{display:none}.rail{position:relative;width:100%;height:auto;min-height:480px;padding:32px 24px;background:#08251b}.rail::before{right:-18%;top:10%}.meta{font-size:9px}.index{margin-top:42px;font-size:92px}.rail h1{margin:34px 0 0;font-size:64px}.descriptor{font-size:18px}.ticker{top:auto;bottom:100px;height:48px}.summary{left:24px;right:24px;bottom:24px;font-size:10px}.stage{position:relative;inset:auto;width:100%;height:auto}.stage-top{position:relative;inset:auto;height:640px}.stage-head{top:20px;left:18px;right:18px}.system-state{font-size:8px}.network{left:0;top:55px;width:100%;height:360px;transform:none}.network #farm-3d{transform:none}.network.is-3d #farm-3d{opacity:1}.agent-panel{left:16px;right:16px;top:auto;bottom:18px;width:auto;height:205px;padding:18px}.agent-panel .prompt{height:38px}.chapters{position:relative;inset:auto;grid-template-columns:1fr 1fr;min-height:420px}.chapter{min-height:210px;padding:22px}.chapter:nth-child(2){border-right:0}.mini{left:22px;right:22px}.narrative-head{grid-template-columns:1fr;padding:64px 24px;gap:28px}.proof-strip{grid-template-columns:1fr 1fr}.proof:nth-child(2){border-right:0}.proof{min-height:130px;padding:22px}.story-copy h2{font-size:clamp(52px,16vw,76px);letter-spacing:0}.story-meta{gap:18px;flex-wrap:wrap}.reel-notes{min-height:auto;padding:48px 24px;gap:42px}.reel-notes h3{letter-spacing:0}.loop-track{grid-template-columns:repeat(3,1fr)}.loop-track::before{display:none}.loop-node{padding-top:48px}.loop-node::before{top:24px}.footer-line{font-size:8px}.shot figcaption{gap:12px}.shot figcaption span{text-align:right}}
-    @media(max-width:520px){.chapters{grid-template-columns:1fr}.chapter{border-right:0;border-bottom:1px solid rgba(6,27,20,.16)}.proof-strip{grid-template-columns:1fr}.proof{border-right:0;border-bottom:1px solid rgba(244,240,223,.16)}.story-hero,.story-copy{min-height:680px}.reel-media{min-height:350px}.brand{font-size:11px}}
+    @media(max-width:1180px){
+      body{padding:12px}.site-nav{width:100%;top:8px;margin-bottom:12px}.project-document{width:100%}.document-head{grid-template-columns:1fr;gap:18px}.document-meta{text-align:left}.nav-links{display:none}.spread{width:100%;min-width:0;aspect-ratio:auto;display:flex;flex-direction:column;overflow:visible}.spread::before,.fold,.safe,.scroll-cue{display:none}.rail{position:relative;width:100%;height:auto;min-height:480px;padding:32px 24px;background:#08251b}.rail::before{right:-18%;top:10%}.meta{font-size:9px}.index{margin-top:42px;font-size:92px}.rail h1{margin:34px 0 0;font-size:64px}.descriptor{font-size:18px}.ticker{top:auto;bottom:100px;height:48px}.summary{left:24px;right:24px;bottom:24px;font-size:10px}.stage{position:relative;inset:auto;width:100%;height:auto}.stage-top{position:relative;inset:auto;height:700px}.stage-head{top:20px;left:18px;right:18px}.system-state{font-size:8px}.network{left:0;top:55px;width:100%;height:390px;transform:none}.network #farm-3d{transform:none}.network.is-3d #farm-3d{opacity:1}.agent-panel{left:16px;right:16px;top:auto;bottom:18px;width:auto;height:250px;padding:18px}.agent-panel .prompt{height:38px}.chapters{position:relative;inset:auto;grid-template-columns:1fr 1fr;min-height:420px}.chapter{min-height:210px;padding:22px}.chapter:nth-child(2){border-right:0}.mini{left:22px;right:22px}.narrative-head{grid-template-columns:1fr;padding:64px 24px;gap:28px}.proof-strip{grid-template-columns:1fr 1fr}.proof:nth-child(2){border-right:0}.proof{min-height:130px;padding:22px}.story-copy h2{font-size:clamp(52px,16vw,76px);letter-spacing:0}.story-meta{gap:18px;flex-wrap:wrap}.reel-grid{grid-template-columns:1fr}.reel-media{min-height:520px;grid-row:1}.reel-notes{min-height:auto;padding:48px 24px;gap:42px}.reel-notes h3{letter-spacing:0}.loop-track{grid-template-columns:repeat(3,1fr)}.loop-track::before{display:none}.loop-node{padding-top:48px}.loop-node::before{top:24px}.outcome-head{grid-template-columns:1fr;gap:22px;padding-inline:24px}.shot-grid{grid-template-columns:1fr}.footer-line{font-size:8px}.shot figcaption{gap:12px}.shot figcaption span{text-align:right}}
+    @media(max-width:680px){.nav-status,.brand{display:none}.document-continuation{align-items:flex-start;flex-direction:column;gap:14px;padding-block:18px}.document-page figcaption{right:8px;bottom:8px}.narrative-head h2,.outcome-head h3{font-size:36px;line-height:1.05}.reel-proof-grid{grid-template-columns:1fr}.reel-media{padding:18px}}
+    @media(max-width:520px){.chapters{grid-template-columns:1fr}.chapter{border-right:0;border-bottom:1px solid rgba(6,27,20,.16)}.proof-strip{grid-template-columns:1fr}.proof{border-right:0;border-bottom:1px solid rgba(244,240,223,.16)}.story-hero,.story-copy{min-height:680px}.reel-media{min-height:350px}.home-link{font-size:9px}}
   </style>
 </head>
-<body>
+<body aria-busy="true">
+  <div class="asset-loader" role="status" aria-live="polite" aria-label="正在加载项目资源">
+    <div class="loader-panel">
+      <div class="loader-copy"><span>Loading project assets</span><output>0%</output></div>
+      <div class="loader-track" aria-hidden="true"><i></i></div>
+    </div>
+  </div>
   <nav class="site-nav" aria-label="项目导航">
-    <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>VIBE FARMING</a>
-    <div class="nav-links"><a href="#overview">Overview</a><a href="#system">System</a><a href="#workflow">Workflow</a><a href="#outcome">Outcome</a></div>
+    <div class="nav-identity">
+      <a class="home-link" href="../index.html#projects">← Projects / 返回主页</a>
+      <a class="brand" href="#portfolio"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>VIBE FARMING</a>
+    </div>
+    <div class="nav-links"><a href="#portfolio">Portfolio</a><a href="#overview">Interactive</a><a href="#system">System</a><a href="#workflow">Workflow</a><a href="#outcome">Outcome</a></div>
     <div class="nav-status">FIELD SYSTEM ONLINE</div>
   </nav>
+  <section class="project-document" id="portfolio" aria-labelledby="portfolio-title">
+    <header class="document-head">
+      <div class="document-kicker">01 / Project document</div>
+      <h1 id="portfolio-title">Vibe Farming<br>Portfolio</h1>
+      <div class="document-meta"><span>Original portfolio</span><b>03 spreads · 25:9</b></div>
+    </header>
+    <figure class="document-page"><img src="../assets/project-pages/01/page-1.jpg" alt="Vibe Farming 作品集第 1 页：项目封面与空间智能农场概念" loading="eager" decoding="async" fetchpriority="high"><figcaption>01 / 03</figcaption></figure>
+    <figure class="document-page"><img src="../assets/project-pages/01/page-2.jpg" alt="Vibe Farming 作品集第 2 页：项目研究与设计背景" loading="eager" decoding="async"><figcaption>02 / 03</figcaption></figure>
+    <figure class="document-page"><img src="../assets/project-pages/01/page-3.jpg" alt="Vibe Farming 作品集第 3 页：系统设计、交互原型与视觉语言" loading="eager" decoding="async"><figcaption>03 / 03</figcaption></figure>
+    <div class="document-continuation"><span>Document complete · Continue into the interactive system</span><a href="#overview">Enter case study ↓</a></div>
+  </section>
   <main class="spread" id="overview">
     <aside class="rail">
       <div class="meta"><span>IMDT PORTFOLIO</span><span>TSINGHUA / 2026</span></div>
@@ -231,13 +327,14 @@
     <section class="stage" aria-label="Vibe Farming system overview">
       <div class="stage-top">
         <header class="stage-head"><div class="stage-label"><span class="live-dot"></span>FIELD INTELLIGENCE / LIVE</div><div class="system-state">40.106° N · 116.332° E &nbsp; / &nbsp; NODE SYNC 98.6%</div></header>
-        <div class="network" aria-hidden="true">
-          <canvas id="farm-3d" aria-label="Interactive 3D digital farm model"></canvas>
+        <div class="network" role="img" aria-label="可随指针轻微转动的三维数字农场模型">
+          <canvas id="farm-3d" aria-hidden="true"></canvas>
           <div class="field" id="field"></div><div class="scan"></div><div class="node-layer" id="nodes"></div>
           <div class="orbit"><div class="core"></div></div>
         </div>
         <aside class="agent-panel">
           <div class="agent-title">AGENT CONSOLE <small>ONLINE</small></div>
+          <div class="workload" aria-label="Agent 工作负载百分之七十二"><div class="workload-head"><span>AGENT WORKLOAD</span><b>72%</b></div><div class="workload-track"><i></i></div><div class="workload-meta"><span>03 sensing · 02 planning</span><span>01 executing</span></div></div>
           <div class="metric-row"><div class="metric"><b data-count="126">0</b><span>HECTARES</span></div><div class="metric"><b data-count="18">0</b><span>FIELDS</span></div><div class="metric"><b data-count="92">0</b><span>HEALTH INDEX</span></div></div>
           <div class="decision"><div class="decision-head"><span>ACTIVE DECISIONS</span><span>CONFIDENCE</span></div><div class="decision-line"><i></i><span>Irrigation +15%</span><em>94%</em></div><div class="decision-line"><i></i><span>Pest risk / Block 2</span><em>87%</em></div><div class="decision-line"><i></i><span>Deploy field robot</span><em>READY</em></div></div>
           <div class="prompt">Analyzing multispectral field signals...</div>
@@ -245,10 +342,10 @@
       </div>
 
       <section class="chapters">
-        <article class="chapter" tabindex="0" data-target="system"><div class="chapter-title"><b>01</b> RESEARCH</div><div class="chapter-sub">问题洞察与系统机会点</div><div class="mini bars"><i style="--h:38%;--delay:-.4s"></i><i style="--h:72%;--delay:-1.2s"></i><i style="--h:48%;--delay:-2.1s"></i><i style="--h:88%;--delay:-.8s"></i><i style="--h:58%;--delay:-1.7s"></i><i style="--h:76%;--delay:-2.5s"></i></div></article>
-        <article class="chapter" tabindex="0" data-target="system"><div class="chapter-title"><b>02</b> FARM MODE</div><div class="chapter-sub">农场数字孪生与信息可视化</div><div class="mini matrix" id="matrix"></div></article>
-        <article class="chapter" tabindex="0" data-target="workflow"><div class="chapter-title"><b>03</b> AGENT WORKFLOW</div><div class="chapter-sub">多模态智能体协同工作流</div><div class="mini flow"><i>User</i><i>Sense</i><i>Agent</i><i>Plan</i><i>Act</i></div></article>
-        <article class="chapter" tabindex="0" data-target="outcome"><div class="chapter-title"><b>04</b> REAL-WORLD EXECUTION</div><div class="chapter-sub">具身执行与闭环反馈</div><div class="mini execution"><div class="machine"><span>ROBOT / 01</span></div><div class="machine"><span>TRACTOR / 02</span></div></div></article>
+        <a class="chapter" href="#system"><div class="chapter-title"><b>01</b> RESEARCH</div><div class="chapter-sub">问题洞察与系统机会点</div><div class="mini bars" aria-hidden="true"><i style="--h:38%;--delay:-.4s"></i><i style="--h:72%;--delay:-1.2s"></i><i style="--h:48%;--delay:-2.1s"></i><i style="--h:88%;--delay:-.8s"></i><i style="--h:58%;--delay:-1.7s"></i><i style="--h:76%;--delay:-2.5s"></i></div></a>
+        <a class="chapter" href="#system"><div class="chapter-title"><b>02</b> FARM MODE</div><div class="chapter-sub">农场数字孪生与信息可视化</div><div class="mini matrix" id="matrix" aria-hidden="true"></div></a>
+        <a class="chapter" href="#workflow"><div class="chapter-title"><b>03</b> SEE · THINK · ACT</div><div class="chapter-sub">从信号理解到行动计划</div><div class="mini workflow-mini" aria-hidden="true"><span class="workflow-step"><img src="assets/field-demo/01-overview.png" alt=""><b>SEE / FIELD</b></span><span class="workflow-step"><img src="assets/field-demo/02-field-detail.png" alt=""><b>THINK / AGENT</b></span><span class="workflow-step"><img src="assets/field-demo/03-agent-online.png" alt=""><b>ACT / TASK</b></span></div></a>
+        <a class="chapter" href="#outcome"><div class="chapter-title"><b>04</b> REAL-WORLD EXECUTION</div><div class="chapter-sub">真实任务、状态与结果证据</div><div class="mini execution execution-preview" aria-hidden="true"><figure><img src="assets/field-demo/03-agent-online.png" alt=""><span>AGENT / <b>ONLINE</b></span></figure><figure><img src="assets/field-demo/04-decision-result.png" alt=""><span>RESULT / <b>VERIFIED</b></span></figure></div></a>
       </section>
     </section>
     <div class="scroll-cue">SCROLL TO ENTER THE SYSTEM</div><div class="safe"><span>20mm SAFE ZONE</span></div><div class="fold"></div>
@@ -257,7 +354,7 @@
     <header class="narrative-head" id="system"><span>01 / System opportunity</span><h2>让每一次感知，最终落到一次可靠行动。</h2><p>农业数据并不缺少，缺少的是从异常识别到现场执行的连续链路。Vibe Farming 将分散的传感器、田块状态、Agent 推理和农业设备组织成同一个可见、可追踪、可干预的决策系统。</p></header>
     <div class="proof-strip" aria-label="系统关键指标"><div class="proof"><small>FIELD COVERAGE</small><b>126 ha</b><span>统一接入农田范围</span></div><div class="proof"><small>FIELD NODES</small><b>08</b><span>环境与作物感知节点</span></div><div class="proof"><small>DECISION LOOP</small><b>10 sec</b><span>从异常到任务生成</span></div><div class="proof"><small>NODE SYNC</small><b>98.6%</b><span>实时状态同步率</span></div></div>
     <article class="story-hero" id="workflow">
-      <video class="story-video" autoplay muted loop playsinline preload="metadata" poster="assets/field-demo/01-overview.png">
+      <video class="story-video" autoplay muted loop playsinline preload="auto" poster="assets/field-demo/01-overview.png" aria-label="Vibe Farming 智慧农田原型运行画面">
         <source src="assets/field-demo/vibe-farming-live.mp4" type="video/mp4">
       </video>
       <div class="chapter-tag">02 / LIVE DIGITAL TWIN</div><div class="story-copy">
@@ -282,18 +379,59 @@
         </div>
         <div class="loop-track" aria-label="决策闭环"><div class="loop-node">SENSE</div><div class="loop-node">INTERPRET</div><div class="loop-node active">REASON</div><div class="loop-node">PLAN</div><div class="loop-node">EXECUTE</div><div class="loop-node">VERIFY</div></div>
       </div>
-      <div class="reel-media"><img src="assets/field-demo/02-field-detail.png" alt="7 号辣椒地块的环境指标与健康详情"><div class="reel-label">07 / PEPPER FIELD · HEALTH 35</div></div>
+      <div class="reel-media">
+        <div class="screen-frame"><img src="assets/field-demo/02-field-detail.png" alt="7 号辣椒地块的环境指标、风险解释与 Agent 对话"></div>
+        <div class="reel-proof-grid" aria-label="感知、推理与执行状态">
+          <div class="reel-proof"><span>SEE</span><b>Field 07 · Pepper</b><small>9 live environment signals</small></div>
+          <div class="reel-proof"><span>THINK</span><b>Risk explained</b><small>Evidence → plan → approval</small></div>
+          <div class="reel-proof"><span>ACT</span><b>Task dispatched</b><small>Execution status written back</small></div>
+        </div>
+      </div>
     </article>
 
+    <header class="outcome-head"><span>03 / Outcome evidence</span><h3>行动不是终点，结果回写才让系统形成闭环。</h3></header>
     <div class="shot-grid" id="outcome" aria-label="实机关键画面">
-      <figure class="shot"><img loading="lazy" src="assets/field-demo/04-decision-result.png" alt="Agent 今日建议与待处理任务"><figcaption><b>Decision queue</b><span>9 actionable tasks</span></figcaption></figure>
-      <figure class="shot"><img loading="lazy" src="assets/field-demo/03-agent-online.png" alt="Agent 在线并自动完成农业任务"><figcaption><b>Agent online</b><span>closed-loop execution</span></figcaption></figure>
-      <figure class="shot"><img loading="lazy" src="assets/field-demo/01-overview.png" alt="智慧农田系统总览"><figcaption><b>Field overview</b><span>8 plots / live status</span></figcaption></figure>
+      <figure class="shot"><img src="assets/field-demo/04-decision-result.png" alt="Agent 今日建议、任务队列与真实执行结果"><figcaption><b>Decision queue</b><span>9 actionable tasks</span></figcaption></figure>
+      <figure class="shot"><img src="assets/field-demo/03-agent-online.png" alt="Agent 在线派发并执行农业任务"><figcaption><b>Agent online</b><span>closed-loop execution</span></figcaption></figure>
+      <figure class="shot"><img src="assets/field-demo/01-overview.png" alt="八块农田的智慧农田系统总览"><figcaption><b>Field overview</b><span>8 plots / live status</span></figcaption></figure>
     </div>
     <footer class="footer-line"><span>Vibe Farming / AI Agriculture Decision System</span><span>IMDT Portfolio · 2026</span></footer>
   </section>
   <script type="module">
-    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+    const loader = document.querySelector('.asset-loader');
+    const loaderBar = loader.querySelector('i');
+    const loaderOutput = loader.querySelector('output');
+    const loadables = [...document.querySelectorAll('img, video')];
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const assetTotal = loadables.length + 1;
+    let assetCount = 0;
+    let assetFailed = false;
+    const assetDone = (ok = true) => {
+      if (assetCount >= assetTotal) return;
+      assetFailed ||= !ok;
+      assetCount += 1;
+      const progress = Math.round(assetCount / assetTotal * 100);
+      loaderBar.style.width = `${progress}%`;
+      loaderOutput.value = `${progress}%`;
+      if (assetCount === assetTotal) setTimeout(() => {
+        loader.querySelector('.loader-copy span').textContent = assetFailed ? 'Loaded · static fallback available' : 'Project ready';
+        document.documentElement.classList.remove('is-loading');
+        document.body.removeAttribute('aria-busy');
+        loader.classList.add('is-complete');
+      }, 180);
+    };
+    loadables.forEach(asset => {
+      let settled = false;
+      const settle = ok => { if (!settled) { settled = true; assetDone(ok); } };
+      if (asset.tagName === 'IMG') {
+        if (asset.complete) queueMicrotask(() => settle(asset.naturalWidth > 0));
+        else { asset.addEventListener('load', () => settle(true), { once:true }); asset.addEventListener('error', () => settle(false), { once:true }); }
+      } else if (asset.readyState >= (reduceMotion ? 1 : 3)) queueMicrotask(() => settle(true));
+      else { asset.addEventListener(reduceMotion ? 'loadedmetadata' : 'canplay', () => settle(true), { once:true }); asset.addEventListener('error', () => settle(false), { once:true }); }
+    });
+    setTimeout(() => { while (assetCount < assetTotal) assetDone(false); }, 12000);
+    if (reduceMotion) document.querySelectorAll('video').forEach(video => { video.autoplay = false; video.pause(); });
+    const THREE = await import('../assets/vendor/three/three.module.js').catch(() => null);
 
     const field = document.querySelector('#field');
     for (let i = 0; i < 40; i++) {
@@ -315,18 +453,17 @@
     const matrix = document.querySelector('#matrix');
     for (let i = 0; i < 15; i++) { const cell = document.createElement('i'); cell.style.setProperty('--delay', `${-i * .22}s`); matrix.appendChild(cell); }
     document.querySelectorAll('[data-count]').forEach(el => {
-      const target = Number(el.dataset.count); let value = 0;
+      const target = Number(el.dataset.count); let value = reduceMotion ? target : 0;
+      if (reduceMotion) { el.textContent = target; return; }
       const timer = setInterval(() => { value = Math.min(target, value + Math.max(1, Math.ceil(target / 28))); el.textContent = value; if (value >= target) clearInterval(timer); }, 45);
     });
-    const spread = document.querySelector('.spread');
-    const fitSpread = () => {
-      spread.style.zoom = 1;
-    };
-    fitSpread();
-    window.addEventListener('resize', fitSpread, { passive: true });
 
-    const canvas = document.querySelector('#farm-3d');
     const network = document.querySelector('.network');
+    if (!THREE) {
+      network.classList.add('is-fallback');
+      assetDone(false);
+    } else try {
+    const canvas = document.querySelector('#farm-3d');
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x061b14, 0.028);
     const camera = new THREE.PerspectiveCamera(32, 1, .1, 100);
@@ -400,26 +537,29 @@
     const pointer = {x:0,y:0}, target = {x:0,y:0};
     network.addEventListener('pointermove', e => { const r=network.getBoundingClientRect(); target.x=((e.clientX-r.left)/r.width-.5); target.y=((e.clientY-r.top)/r.height-.5); });
     network.addEventListener('pointerleave',()=>{target.x=target.y=0;});
-    document.querySelectorAll('.chapter[data-target]').forEach(chapter => {
-      const openChapter = () => document.getElementById(chapter.dataset.target)?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
-      chapter.addEventListener('click', openChapter);
-      chapter.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openChapter(); } });
-    });
-    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let sceneVisible = true;
+    let firstFrame = true;
     new IntersectionObserver(([entry]) => { sceneVisible = entry.isIntersecting; }, { rootMargin: '180px' }).observe(network);
     const clock = new THREE.Clock();
     function resize3d(){ const r=network.getBoundingClientRect(); renderer.setSize(r.width,r.height,false); camera.aspect=r.width/r.height; camera.updateProjectionMatrix(); }
     function render3d(){
       const t=clock.getElapsedTime(); pointer.x+=(target.x-pointer.x)*.045; pointer.y+=(target.y-pointer.y)*.045;
       if(!reduceMotion){ world.rotation.y=-.18+Math.sin(t*.18)*.08+pointer.x*.22; world.rotation.x=pointer.y*.08; ring.rotation.z=t*.32; robot.position.y=.22+Math.sin(t*1.8)*.07; greenGlow.intensity=22+Math.sin(t*2)*5; }
-      if (sceneVisible) renderer.render(scene,camera);
-      requestAnimationFrame(render3d);
+      if (firstFrame || sceneVisible) {
+        renderer.render(scene,camera);
+        if (firstFrame) { firstFrame = false; assetDone(true); }
+      }
+      if (!reduceMotion) requestAnimationFrame(render3d);
     }
     resize3d();
     network.classList.add('is-3d');
     render3d();
     window.addEventListener('resize',resize3d,{passive:true});
+    } catch (error) {
+      console.warn('3D farm unavailable; using the field fallback.', error);
+      network.classList.add('is-fallback');
+      assetDone(false);
+    }
   </script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Aether Lane - four AI, interaction and spatial computing projects." />
-  <title>Galaxy Home | Aether Lane Portfolio</title>
+  <meta name="description" content="Kang Jiayue | AI &amp; Interaction Design — four projects across AI systems, accessibility, embodied intelligence, and spatial computing." />
+  <title>Kang Jiayue | AI &amp; Interaction Design</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -41,10 +41,24 @@
     .project-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg,transparent 38%,rgba(2,3,25,.92)); pointer-events: none; }
     .project-card:focus-visible { outline: 2px solid #BEC7FF; outline-offset: 6px; }
     .noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
+    html.castle-intro-lock,html.castle-intro-lock body { height:100%; overflow:hidden; overscroll-behavior:none; }
     .castle-world { position:relative; height:620vh; background:#020319; }
     .castle-world__stage { position:fixed; z-index:30; inset:0; height:100vh; min-height:620px; overflow:hidden; isolation:isolate; transition:opacity .28s ease,visibility .28s; }
     .castle-world__stage.is-past { opacity:0; visibility:hidden; pointer-events:none; }
     #root { position:relative; z-index:40; }
+    .fallback { min-height:100vh; padding:clamp(1.25rem,4vw,4rem); color:#f5f3ff; background:radial-gradient(circle at 70% 0,#3c3183 0,transparent 38%),#090625; }
+    .fallback__bar { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+    .fallback__brand { color:inherit; font-size:1.25rem; font-weight:600; text-decoration:none; }
+    .fallback__download { padding:.75rem 1rem; border-radius:999px; background:#bec7ff; color:#271c40; font-weight:600; text-decoration:none; }
+    .fallback__projects { max-width:80rem; margin:clamp(5rem,12vh,9rem) auto 0; }
+    .fallback__eyebrow { color:#bec7ff; font-size:.72rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; }
+    .fallback h1 { margin:.75rem 0; font-size:clamp(2.75rem,8vw,7rem); line-height:.92; letter-spacing:-.055em; }
+    .fallback__copy { max-width:42rem; color:rgba(245,243,255,.7); line-height:1.6; }
+    .fallback__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; margin-top:3rem; background:rgba(255,255,255,.16); }
+    .fallback__grid a { display:flex; min-height:12rem; flex-direction:column; justify-content:flex-end; padding:clamp(1.25rem,3vw,2.5rem); background:#100b39; color:inherit; text-decoration:none; }
+    .fallback__grid span,.fallback__grid small { color:rgba(245,243,255,.55); font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; }
+    .fallback__grid strong { margin:.65rem 0 .3rem; font-size:clamp(1.5rem,4vw,3rem); }
+    .fallback a:focus-visible { outline:2px solid #bec7ff; outline-offset:4px; }
     .castle-world__backdrop { position:absolute; inset:-5%; width:110%; height:110%; object-fit:cover; opacity:.42; filter:blur(7px) saturate(.88); transform:translate3d(0,var(--castle-bg-y,0),0) scale(1.04); }
     .castle-world__veil { position:absolute; inset:0; background:radial-gradient(circle at 62% 48%,transparent 8%,rgba(2,3,25,.2) 46%,rgba(2,3,25,.82) 100%),linear-gradient(180deg,rgba(2,3,25,.08),rgba(2,3,25,.55)); }
     #castle-video { position:absolute; inset:0; z-index:2; width:100%; height:100%; object-fit:cover; object-position:center; background:#020319; filter:saturate(1.04) contrast(1.02); }
@@ -62,19 +76,46 @@
       html { scroll-behavior: auto; }
       *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
     }
-    @media (max-width:700px) { .project-orbit { grid-template-columns:repeat(2,minmax(0,1fr)); top:calc(100vh - 10rem); } .project-orbit a { padding:.55rem .75rem; } #estate-scene { transform:scale(1.12); } }
+    @media (max-width:700px) { .project-orbit { grid-template-columns:repeat(2,minmax(0,1fr)); top:calc(100vh - 10rem); } .project-orbit a { padding:.55rem .75rem; } #estate-scene { transform:scale(1.12); } .fallback__grid { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
-  <section class="castle-world" id="home" aria-label="Aether Lane interactive castle portfolio">
+  <script>if (location.hash !== '#projects') document.documentElement.classList.add('castle-intro-lock');</script>
+  <section class="castle-world" id="home" aria-label="Kang Jiayue AI and Interaction Design portfolio">
     <div class="castle-world__stage">
       <img class="castle-world__backdrop" src="assets/sky-estate/sky-source.png" alt="" aria-hidden="true">
       <div class="castle-world__veil" aria-hidden="true"></div>
-      <video id="castle-video" aria-hidden="true" muted playsinline preload="metadata" poster="assets/sky-estate/sky-source.png" data-src="assets/sky-estate/video/portfolio-castle-four-projects-final.mp4"></video>
+      <video id="castle-video" aria-hidden="true" muted playsinline preload="none" poster="assets/sky-estate/sky-source.png" data-src="assets/sky-estate/video/portfolio-castle-four-projects-final.mp4"></video>
       <div id="castle-ui-root"></div>
     </div>
   </section>
-  <div id="root"></div>
+  <script>
+    if (location.hash === '#projects') {
+      const intro = document.querySelector('.castle-world');
+      intro.style.height = '0';
+      intro.querySelector('.castle-world__stage')?.remove();
+    }
+  </script>
+  <div id="root">
+    <main class="fallback">
+      <header class="fallback__bar">
+        <a class="fallback__brand" href="./index.html">kangjay</a>
+        <a class="fallback__download" href="final_pdf/kangjiayue-portfolio.pdf" download="Kang-Jiayue-Portfolio.pdf">Download portfolio ↓</a>
+      </header>
+      <section class="fallback__projects" id="projects" aria-labelledby="fallback-title">
+        <p class="fallback__eyebrow">Selected work / 2026</p>
+        <h1 id="fallback-title">Four project orbits</h1>
+        <p class="fallback__copy">Projects across AI agriculture, accessible interaction, embodied agency, and vision-language navigation.</p>
+        <nav class="fallback__grid" aria-label="All projects">
+          <a href="vibefarming_html/index-hybrid.html"><span>01 · AI × Agriculture</span><strong>Vibe Farming</strong><small>空间化智慧农场</small></a>
+          <a href="index-VisionVoice.html"><span>02 · Accessibility × Vision</span><strong>视界之声</strong><small>多模态生活助手</small></a>
+          <a href="index-Embodied-Agent.html"><span>03 · Embodied AI × Memory</span><strong>具身 Agent</strong><small>可验证自主执行</small></a>
+          <a href="index-Hunyuan-VLN.html"><span>04 · Spatial AI × Simulation</span><strong>混元 VLN</strong><small>生成世界导航研究</small></a>
+        </nav>
+      </section>
+      <noscript><p class="fallback__copy" role="status">Interactive effects are unavailable; every project and the portfolio download remain accessible above.</p></noscript>
+    </main>
+  </div>
   <script type="text/babel">
     const { useEffect, useRef, useState } = React;
     const { motion, AnimatePresence, useInView, useScroll, useTransform } = Motion;
@@ -94,8 +135,8 @@
       return <svg viewBox="0 0 256 256" className="h-6 w-6 md:h-7 md:w-7 fill-white" aria-hidden="true"><path d="M 228 0 C 172.772 0 128 44.772 128 100 L 128 0 L 0 0 L 0 28 C 0 83.228 44.772 128 100 128 L 0 128 L 0 256 L 28 256 C 83.228 256 128 211.228 128 156 L 128 256 L 256 256 L 256 228 C 256 172.772 211.228 128 156 128 L 256 128 L 256 0 Z"/></svg>;
     }
 
-    function CTA({large=false}){
-      return <motion.a href="#projects" whileHover={{scale:1.05}} whileTap={{scale:.98}} className={`glass-cta inline-flex items-center justify-center rounded-full border border-white/80 font-medium text-brand-navy/80 drop-shadow-sm ${large?'px-8 sm:px-10 py-2.5 sm:py-3 text-base sm:text-lg':'px-5 md:px-6 py-2 text-sm md:text-[15px]'}`}>Explore projects</motion.a>;
+    function CTA({large=false,download=false}){
+      return <motion.a href={download?'final_pdf/kangjiayue-portfolio.pdf':'#projects'} download={download?'Kang-Jiayue-Portfolio.pdf':undefined} whileHover={{scale:1.05}} whileTap={{scale:.98}} className={`glass-cta inline-flex items-center justify-center rounded-full border border-white/80 font-medium text-brand-navy/80 drop-shadow-sm ${large?'px-8 sm:px-10 py-2.5 sm:py-3 text-base sm:text-lg':'px-5 md:px-6 py-2 text-sm md:text-[15px]'}`}>{download?'Download portfolio ↓':'Explore projects'}</motion.a>;
     }
 
     function Navbar(){
@@ -104,9 +145,9 @@
       return <>
         <div className="fixed inset-x-0 top-0 z-[60] flex justify-center px-4 pt-4 md:pt-6">
           <nav className="flex items-center gap-4 rounded-full bg-[#312D7C]/40 px-4 py-3 backdrop-blur-[15px] md:gap-8 lg:gap-20 border border-white/10 shadow-[0_12px_45px_rgba(0,0,0,.18)]">
-            <a href="#home" className="flex items-center gap-2 text-white"><CloverLogo/><span className="whitespace-nowrap text-base font-medium md:text-xl">Aether Lane</span></a>
+            <a href="#home" aria-label="kangjay — back to home" className="flex items-center gap-2 text-white"><CloverLogo/><span className="whitespace-nowrap text-base font-medium md:text-xl">kangjay</span></a>
             <div className="hidden items-center gap-6 md:flex">{links.map((l,i)=><a key={l} href={`#${l.toLowerCase()}`} className={`text-sm transition-colors ${i===0?'text-white':'text-[#B6B8C3] hover:text-white'}`}>{l}</a>)}</div>
-            <div className="hidden md:block"><CTA/></div>
+            <div className="hidden md:block"><CTA download/></div>
             <button onClick={()=>setOpen(!open)} className="relative z-[70] h-9 w-9 md:hidden" aria-label={open?'Close menu':'Open menu'} aria-expanded={open}>
               {[0,1,2].map(i=><motion.span key={i} className="absolute left-2 h-px w-5 bg-white" animate={open?{rotate:i===0?45:i===2?-45:0,y:i===0?7:i===2?-7:0,opacity:i===1?0:1}:{rotate:0,y:0,opacity:1}} style={{top:10+i*7}}/>)}
             </button>
@@ -162,12 +203,12 @@
 
     function MountainContent(){
       const ref=useRef(null); const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']}); const y=useTransform(scrollYProgress,[0,1],['0%','-20%']);
-      return <div ref={ref} className="relative z-40 overflow-hidden bg-[#100b39]"><div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#40318c_0%,#171044_38%,#020319_78%)]"/><motion.img src={MOUNTAIN} alt="Mountain landscape" className="absolute inset-0 h-[112%] w-full object-cover object-top opacity-90" style={{y}}/><div className="absolute inset-0 bg-gradient-to-b from-brand-dark/20 via-brand-dark/30 to-brand-dark"/><div className="relative z-10 pt-12 sm:pt-20 md:pt-28"><div className="flex flex-col items-center px-5 py-16 text-center sm:px-6 md:py-24"><p className="text-shadow w-full max-w-[620px] break-words text-sm font-medium leading-relaxed text-white/90 sm:text-base md:text-lg">Explore four projects across AI agriculture, accessible interaction, embodied agency, and vision-language navigation — presented as one continuous design position.</p><div className="mt-6 sm:mt-7"><CTA large/></div></div><TextFill/><LogoMarquee/><Projects/><Stats/></div></div>;
+      return <div ref={ref} className="relative z-40 overflow-hidden bg-[#100b39]"><div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#40318c_0%,#171044_38%,#020319_78%)]"/><motion.img src={MOUNTAIN} alt="Mountain landscape" className="absolute inset-0 h-[112%] w-full object-cover object-top opacity-90" style={{y}}/><div className="absolute inset-0 bg-gradient-to-b from-brand-dark/20 via-brand-dark/30 to-brand-dark"/><div className="relative z-10 pt-12 sm:pt-20 md:pt-28"><div className="flex flex-col items-center px-5 py-16 text-center sm:px-6 md:py-24"><p className="text-shadow w-full max-w-[620px] break-words text-sm font-medium leading-relaxed text-white/90 sm:text-base md:text-lg">Explore four projects across AI agriculture, accessible interaction, embodied agency, and vision-language navigation — presented as one continuous design position.</p><div className="mt-6 flex flex-wrap justify-center gap-3 sm:mt-7"><CTA large/><CTA large download/></div></div><TextFill/><LogoMarquee/><Projects/><Stats/></div></div>;
     }
 
-    function App(){ useEffect(()=>{ lucide.createIcons(); },[]); return <div className="min-h-screen bg-brand-dark"><MountainContent/><footer id="inquire" className="border-t border-white/10 bg-brand-dark px-6 py-12 text-white"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 sm:flex-row sm:items-end"><div><div className="flex items-center gap-3"><CloverLogo/><span className="text-2xl font-medium">Aether Lane</span></div><p className="mt-3 max-w-md text-sm text-white/50">Interaction media, AI systems, and spatial intelligence portfolio.</p></div><a href="#home" className="text-sm text-white/60 transition hover:text-white">Back to orbit ↑</a></div></footer></div>; }
+    function App(){ useEffect(()=>{ lucide.createIcons(); if(location.hash==='#projects') requestAnimationFrame(()=>document.querySelector('#projects')?.scrollIntoView()); },[]); return <div className="min-h-screen bg-brand-dark"><MountainContent/><footer id="inquire" className="border-t border-white/10 bg-brand-dark px-6 py-12 text-white"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 sm:flex-row sm:items-end"><div><div className="flex items-center gap-3"><CloverLogo/><span className="text-2xl font-medium">kangjay</span></div><p className="mt-3 max-w-md text-sm text-white/50">Portfolio across AI systems, interaction design, and spatial intelligence.</p></div><a href="#home" className="text-sm text-white/60 transition hover:text-white">Back to orbit ↑</a></div></footer></div>; }
     ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   </script>
-  <script type="module" src="castle-sequence-player.js?v=video-7"></script>
+  <script type="module" src="castle-sequence-player.js?v=autoplay-1"></script>
 </body>
 </html>
