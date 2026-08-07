@@ -1,0 +1,16 @@
+{
+  "name": "kangjay-visitor-logger",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-07",
+  "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kangjay-visitor-logs",
+      "database_id": "1801c63c-c9d9-490e-a304-39da9147f91f"
+    }
+  ],
+  "triggers": {
+    "crons": ["17 3 * * *"]
+  }
+}

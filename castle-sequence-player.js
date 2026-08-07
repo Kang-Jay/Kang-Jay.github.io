@@ -1,3 +1,4 @@
+import './visitor-log.js';
 import { CASTLE_CHAPTERS } from './castle-scroll.js?v=aligned-1';
 
 const world = document.querySelector('.castle-world');

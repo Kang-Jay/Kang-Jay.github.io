@@ -1,3 +1,5 @@
+import './visitor-log.js';
+
 let THREE;
 let GLTFLoader;
 let RoundedBoxGeometry;
