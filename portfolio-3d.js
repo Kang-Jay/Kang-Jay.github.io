@@ -316,7 +316,8 @@ async function boot() {
     const keyMap = { KeyW: 'forward', ArrowUp: 'forward', KeyS: 'back', ArrowDown: 'back', KeyA: 'left', ArrowLeft: 'left', KeyD: 'right', ArrowRight: 'right' };
     addEventListener('keydown', (event) => {
       const direction = keyMap[event.code];
-      if (!direction || activeView !== 'robot' || !visible || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+      if (!direction || !visible || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+      if (activeView !== 'robot') selectView('robot');
       driveState[direction] = true;
       event.preventDefault();
     });
