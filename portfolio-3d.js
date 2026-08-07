@@ -11,6 +11,27 @@ const loadBar = pageLoader?.querySelector('[data-load-bar]');
 const loadLabel = pageLoader?.querySelector('.page-loader__meta span');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+if (kind === 'hunyuan') {
+  const sources = [
+    'assets/hunyuan-vln/videos/global-path.mp4',
+    'assets/hunyuan-vln/videos/local-avoidance.mp4',
+    'assets/hunyuan-vln/videos/robot-fpv.mp4',
+  ];
+  document.querySelectorAll('.gallery img').forEach((image, index) => {
+    if (!sources[index]) return;
+    const video = document.createElement('video');
+    video.src = sources[index];
+    video.poster = image.getAttribute('src');
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.autoplay = !reduceMotion;
+    video.setAttribute('aria-label', image.alt);
+    image.replaceWith(video);
+  });
+}
+
 document.body.setAttribute('aria-busy', 'true');
 
 const tasks = new Map();

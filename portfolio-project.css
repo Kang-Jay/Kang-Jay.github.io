@@ -108,7 +108,10 @@ body[data-scene="hunyuan"] .scene-hint--hunyuan{position:absolute;z-index:21;rig
   body[data-scene="agent"] .robot-drive{bottom:315px}
 }
 
+.gallery video{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .7s ease}
+.gallery figure:hover video{transform:scale(1.025)}
+
 @media(prefers-reduced-motion:reduce){
-  .page-loader,.page-loader__track [data-load-bar],.project-document__continue,.gallery img{transition:none!important}
-  .project-document__continue:hover,.gallery figure:hover img{transform:none!important}
+  .page-loader,.page-loader__track [data-load-bar],.project-document__continue,.gallery img,.gallery video{transition:none!important}
+  .project-document__continue:hover,.gallery figure:hover img,.gallery figure:hover video{transform:none!important}
 }
