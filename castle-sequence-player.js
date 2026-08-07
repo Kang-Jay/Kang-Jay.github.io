@@ -15,11 +15,12 @@ async function boot() {
 
   const ui = uiRoot.querySelector('[data-castle-ui]');
   const loading = uiRoot.querySelector('[data-castle-loading]');
+  const loadingText = loading?.querySelector('small');
   const error = uiRoot.querySelector('[data-castle-error]');
   const current = uiRoot.querySelector('[data-castle-current]');
   const chapters = [...uiRoot.querySelectorAll('[data-castle-chapter]')];
   const links = [...uiRoot.querySelectorAll('[data-castle-jump]')];
-  let duration = 19.625;
+  let duration = 11.042;
   let targetTime = 0;
   let active = -1;
   let ready = false;
@@ -34,19 +35,51 @@ async function boot() {
     syncVideo();
     if (loading) loading.hidden = true;
   };
-  const markError = () => {
+  const markError = (cause) => {
     if (error) error.hidden = false;
     loading?.classList.add('is-hidden');
-    console.error('Castle video failed to load', video.error);
+    console.error('Castle video failed to load', cause || video.error);
   };
   video.addEventListener('loadedmetadata', markReady, { once: true });
   video.addEventListener('error', markError, { once: true });
   const source = video.dataset.src;
   if (source) {
-    video.src = source;
-    video.load();
+    loadVideo(source).catch(markError);
   } else {
     markError();
+  }
+
+  let videoUrl = '';
+  async function loadVideo(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Video request failed: ${response.status}`);
+
+    const total = Number(response.headers.get('content-length')) || 0;
+    let blob;
+    if (response.body) {
+      const reader = response.body.getReader();
+      const chunks = [];
+      let received = 0;
+      let shown = -1;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        received += value.byteLength;
+        const progress = total ? Math.round(received / total * 100) : Math.round(received / 1048576);
+        if (loadingText && progress !== shown) {
+          shown = progress;
+          loadingText.textContent = total ? `Loading video… ${progress}%` : `Loading video… ${progress} MB`;
+        }
+      }
+      blob = new Blob(chunks, { type: response.headers.get('content-type') || 'video/mp4' });
+    } else {
+      blob = await response.blob();
+    }
+
+    videoUrl = URL.createObjectURL(blob);
+    video.src = videoUrl;
+    video.load();
   }
 
   function syncVideo() {
@@ -168,5 +201,6 @@ async function boot() {
   addEventListener('pagehide', () => {
     cancelAnimationFrame(scrollRaf);
     stopJourney();
+    if (videoUrl) URL.revokeObjectURL(videoUrl);
   }, { once: true });
 }
