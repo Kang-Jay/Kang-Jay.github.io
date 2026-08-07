@@ -25,11 +25,11 @@ const mix = (a, b, t) => a + (b - a) * t;
 
 export const CASTLE_CHAPTERS = Object.freeze([
   { id: 'arrival', index: 0, number: '00', label: 'Arrival', project: null, start: 0 },
-  { id: 'cultivate', index: 1, number: '01', label: 'Cultivate', project: 'Vibe Farming', start: 0.38 },
-  { id: 'perceive', index: 2, number: '02', label: 'Perceive', project: 'Vision Voice', start: 0.54 },
-  { id: 'act', index: 3, number: '03', label: 'Act', project: 'Embodied Agent', start: 0.65 },
-  { id: 'navigate', index: 4, number: '04', label: 'Navigate', project: 'Hunyuan VLN', start: 0.73 },
-  { id: 'overview', index: 5, number: '05', label: 'Overview', project: null, start: 0.92 }
+  { id: 'cultivate', index: 1, number: '01', label: 'Cultivate', project: 'Vibe Farming', start: 0.238 },
+  { id: 'perceive', index: 2, number: '02', label: 'Perceive', project: 'Vision Voice', start: 0.351 },
+  { id: 'act', index: 3, number: '03', label: 'Act', project: 'Embodied Agent', start: 0.491 },
+  { id: 'navigate', index: 4, number: '04', label: 'Navigate', project: 'Hunyuan VLN', start: 0.604 },
+  { id: 'overview', index: 5, number: '05', label: 'Overview', project: null, start: 0.879 }
 ]);
 
 // World-space defaults are deliberately easy to override at construction time.

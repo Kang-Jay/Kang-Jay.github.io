@@ -1,4 +1,4 @@
-import { CASTLE_CHAPTERS } from './castle-scroll.js';
+import { CASTLE_CHAPTERS } from './castle-scroll.js?v=aligned-1';
 
 const world = document.querySelector('.castle-world');
 const stage = document.querySelector('.castle-world__stage');
