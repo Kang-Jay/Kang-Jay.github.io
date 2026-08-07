@@ -2,7 +2,7 @@ const demo = document.querySelector('[data-agent-demo]');
 
 if (demo) {
   const tasks = {
-    book: { title: 'Find the blue book', instruction: 'SEMANTIC SEARCH / LIVING ROOM', image: 'final_pdf/imdt_assets/agent-demo-1.jpg', steps: ['RGB-D observation indexed', 'Shelf → desk → side table', 'Frontier search · 7 actions', 'Blue book visible · passed'], views: ['overview', 'overview', 'robot', 'target'] },
+    book: { title: 'Find the blue book', instruction: 'REAL RUN REPLAY / LIVING ROOM', image: 'final_pdf/imdt_assets/agent-demo-1.jpg', video: 'assets/embodied-agent/guided-replay.mp4', steps: ['RGB-D observation indexed', 'Shelf → desk → side table', 'Frontier search · 7 actions', 'Blue book visible · passed'], views: ['overview', 'overview', 'robot', 'target'] },
     plant: { title: 'Locate the green plant', instruction: 'SPATIAL MEMORY / KITCHEN', image: 'final_pdf/imdt_assets/agent-demo-2.jpg', steps: ['Room graph restored', 'Unseen corner prioritized', 'Memory-guided navigation', 'Plant localized · passed'], views: ['overview', 'target', 'robot', 'target'] },
     cup: { title: 'Interact with the red cup', instruction: 'ACTION CHAIN / POSTCONDITIONS', image: 'final_pdf/imdt_assets/agent-demo-3.jpg', steps: ['Cup and receptacle bound', 'Open → pick → put', '3 actions committed', 'State changed · passed'], views: ['overview', 'target', 'robot', 'target'] },
   };
@@ -11,6 +11,7 @@ if (demo) {
   const taskButtons = [...demo.querySelectorAll('[data-demo-task]')];
   const stepNodes = [...demo.querySelectorAll('[data-demo-step]')];
   const image = demo.querySelector('[data-demo-image]');
+  const video = demo.querySelector('[data-demo-video]');
   const title = demo.querySelector('[data-demo-title]');
   const instruction = demo.querySelector('[data-demo-instruction]');
   const status = demo.querySelector('[data-demo-status]');
@@ -22,6 +23,7 @@ if (demo) {
   function stop() {
     timers.forEach(clearTimeout);
     timers = [];
+    video.pause();
     demo.dataset.status = 'ready';
     demo.style.setProperty('--demo-progress', 0);
     run.disabled = false;
@@ -37,6 +39,10 @@ if (demo) {
     taskButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.demoTask === name)));
     image.src = task.image;
     image.alt = `${task.title} guided replay frame`;
+    video.hidden = !task.video;
+    image.hidden = Boolean(task.video);
+    run.textContent = task.video ? 'PLAY REAL REPLAY' : 'RUN GUIDED DEMO';
+    status.textContent = task.video ? 'READY / 90 SEC REAL RUN' : 'READY / SELECT A TASK';
     title.textContent = task.title;
     instruction.textContent = task.instruction;
   }
@@ -48,6 +54,10 @@ if (demo) {
     demo.dataset.status = 'running';
     run.disabled = true;
     run.textContent = 'RUNNING…';
+    if (task.video) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
     stepNodes.forEach((node, index) => timers.push(setTimeout(() => {
       stepNodes.forEach((item, itemIndex) => item.className = itemIndex < index ? 'is-done' : itemIndex === index ? 'is-active' : '');
       status.textContent = `${String(index + 1).padStart(2, '0')} / 04 · ${node.querySelector('span').textContent}`;
