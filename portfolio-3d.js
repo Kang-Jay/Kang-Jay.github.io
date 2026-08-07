@@ -13,6 +13,22 @@ const loadBar = pageLoader?.querySelector('[data-load-bar]');
 const loadLabel = pageLoader?.querySelector('.page-loader__meta span');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const documentHeads = {
+  sound: ['02 / Project document', 'VisionVoice', 'Original portfolio'],
+  agent: ['03 / Project document', 'Embodied Agent', 'Original portfolio'],
+  hunyuan: ['04 / Project document', 'Hunyuan VLN', 'Original portfolio']
+};
+const documentHead = documentHeads[kind];
+const documentSection = document.querySelector('.project-document');
+if (documentHead && documentSection && !documentSection.querySelector('.project-document__head')) {
+  documentSection.insertAdjacentHTML('afterbegin', `
+    <header class="project-document__head">
+      <div class="project-document__kicker">${documentHead[0]}</div>
+      <h1>${documentHead[1]}<br>Portfolio</h1>
+      <div class="project-document__meta"><span>${documentHead[2]}</span><b>03 spreads · 25:9</b></div>
+    </header>`);
+}
+
 if (kind === 'hunyuan') {
   const sources = [
     'assets/hunyuan-vln/videos/global-path.mp4',

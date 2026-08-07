@@ -14,8 +14,11 @@ body[aria-busy="true"],body.page-is-loading{height:100%;overflow:hidden}
 .page-loader__track [data-load-bar]{display:block;width:100%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));box-shadow:0 0 22px color-mix(in srgb,var(--accent) 48%,transparent);transform:scaleX(0);transform-origin:left center;transition:transform .14s linear}
 
 .project-document{width:min(100%,1680px);margin:0 auto;padding:112px max(2vw,16px) clamp(72px,8vw,128px);background:var(--bg)}
-.project-document__head{display:grid;grid-template-columns:auto 1fr auto;align-items:end;gap:24px;margin:0 auto 28px;padding:0 4px 20px;border-bottom:1px solid rgba(255,255,255,.16)}
-.project-document__head h1{margin:0;font-size:clamp(34px,5vw,82px);line-height:.9}
+.project-document__head{display:grid;grid-template-columns:.7fr 1.3fr auto;align-items:end;gap:clamp(24px,5vw,90px);min-height:220px;margin:0 auto 14px;padding:clamp(34px,4.5vw,84px);border:1px solid rgba(255,255,255,.16);background:linear-gradient(135deg,color-mix(in srgb,var(--bg) 82%,var(--accent) 18%),var(--bg) 68%,color-mix(in srgb,var(--bg) 88%,var(--accent2) 12%))}
+.project-document__head h1{margin:0;font-size:clamp(36px,4.3vw,76px);line-height:.9;letter-spacing:-.045em}
+.project-document__kicker{color:var(--accent);font:900 10px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase}
+.project-document__meta{display:grid;gap:8px;color:rgba(255,255,255,.5);font-size:10px;font-weight:800;letter-spacing:.08em;text-align:right;text-transform:uppercase}
+.project-document__meta b{color:var(--paper);font-size:14px}
 .project-document__page{position:relative;margin:0 0 14px;overflow:hidden;border:1px solid rgba(255,255,255,.15);background:var(--panel);box-shadow:0 28px 80px rgba(0,0,0,.18)}
 .project-document__page img{display:block;width:100%;height:auto;aspect-ratio:25/9;object-fit:contain;background:var(--panel)}
 .project-document__page figcaption{position:absolute;right:14px;bottom:14px;left:auto;display:block;padding:8px 10px;border:1px solid rgba(255,255,255,.16);background:rgba(3,12,13,.78);color:rgba(255,255,255,.76);font:800 9px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.07em;text-shadow:none;backdrop-filter:blur(12px)}
@@ -75,7 +78,7 @@ body[data-scene="hunyuan"] .scene-hint--hunyuan{position:absolute;z-index:21;rig
 
 @media(max-width:800px){
   .project-document{padding-top:100px;padding-bottom:72px}
-  .project-document__head{grid-template-columns:1fr;gap:10px}
+  .project-document__head{grid-template-columns:1fr;gap:16px;min-height:0}.project-document__meta{text-align:left}
   .project-document__page{margin-bottom:8px}
   .project-document__page figcaption{right:8px;bottom:8px;max-width:calc(100% - 16px);font-size:7px}
   .project-document__continue{width:100%;margin-top:18px}
