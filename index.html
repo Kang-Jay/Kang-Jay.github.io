@@ -67,8 +67,6 @@
     .scene-loader { transition:opacity .7s ease,transform .7s ease; }
     .scene-loader.is-loaded { opacity:0; transform:translateY(8px); pointer-events:none; }
     .project-orbit { position:absolute; z-index:40; left:50%; top:calc(100vh - 7.5rem); width:min(92vw,920px); transform:translateX(-50%); display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.5rem; padding:0 .5rem; }
-    .projects-home-link { display:none; position:fixed; z-index:70; top:1rem; left:1rem; align-items:center; padding:.7rem 1rem; border:1px solid rgba(255,255,255,.35); background:rgba(2,3,25,.72); color:#fff; font-size:.8rem; text-decoration:none; backdrop-filter:blur(14px); }
-    .projects-entry .projects-home-link { display:inline-flex; }
     .project-orbit a { display:block; border:1px solid rgba(255,255,255,.25); border-radius:1rem; padding:.72rem 1rem; color:white; text-decoration:none; background:rgba(22,13,67,.46); backdrop-filter:blur(18px); box-shadow:0 16px 35px rgba(8,3,35,.14); transition:background .3s ease,border-color .3s ease,transform .3s ease; }
     .project-orbit a:hover { background:rgba(143,158,255,.22); border-color:rgba(255,255,255,.6); transform:translateY(-3px); }
     .project-orbit span { display:block; font-size:9px; letter-spacing:.18em; color:rgba(255,255,255,.55); }
@@ -89,15 +87,6 @@
       <div id="castle-ui-root"></div>
     </div>
   </section>
-  <script>
-    if (location.hash === '#projects') {
-      document.documentElement.classList.add('projects-entry');
-      const intro = document.querySelector('.castle-world');
-      intro.style.height = '0';
-      intro.querySelector('.castle-world__stage')?.remove();
-    }
-  </script>
-  <a class="projects-home-link" href="./index.html">← Back to video journey</a>
   <div id="root">
     <main class="fallback">
       <header class="fallback__bar">
