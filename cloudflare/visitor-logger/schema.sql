@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS visits (
   ip TEXT NOT NULL,
   country TEXT,
   region TEXT,
-  city TEXT
+  city TEXT,
+  visitor_id TEXT NOT NULL DEFAULT ''
 );
 
 CREATE INDEX IF NOT EXISTS visits_visited_at ON visits (visited_at);
+CREATE INDEX IF NOT EXISTS visits_visitor_id ON visits (visitor_id);

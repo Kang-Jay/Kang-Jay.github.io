@@ -1,4 +1,4 @@
-import './visitor-log.js';
+import './visitor-log.js?v=relay-1';
 import * as THREE from './assets/vendor/three/three.module.js';
 import { GLTFLoader } from './assets/vendor/three/GLTFLoader.js';
 import { MeshoptDecoder } from './assets/vendor/three/meshopt_decoder.module.js';

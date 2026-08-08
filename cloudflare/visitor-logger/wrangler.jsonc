@@ -1,7 +1,7 @@
 {
   "name": "kangjay-visitor-logger",
   "main": "src/worker.js",
-  "compatibility_date": "2026-08-07",
+  "compatibility_date": "2026-08-08",
   "workers_dev": true,
   "d1_databases": [
     {
@@ -12,5 +12,9 @@
   ],
   "triggers": {
     "crons": ["17 3 * * *"]
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
   }
 }

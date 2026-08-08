@@ -1,4 +1,4 @@
-import './visitor-log.js';
+import './visitor-log.js?v=relay-1';
 
 let THREE;
 let GLTFLoader;
