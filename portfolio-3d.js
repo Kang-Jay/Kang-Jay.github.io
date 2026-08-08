@@ -125,7 +125,7 @@ const panelSpecs = kind === 'sound' ? [
   ['final_pdf/imdt_assets/vision-album.jpg', [4.82, -.62, .48], [0, -.42, -.025]],
 ] : [];
 
-const imagePromises = [...document.images].map((image, index) => {
+const imagePromises = [...document.images].filter((image) => image.loading !== 'lazy').map((image, index) => {
   const id = `image:${index}`;
   addTask(id, .75);
   return track(id, waitForImage(image));
