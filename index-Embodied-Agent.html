@@ -49,7 +49,7 @@
       </aside>
       <div class="agent-demo__main">
         <figure class="agent-demo__viewport">
-          <video data-demo-video controls playsinline preload="metadata" poster="final_pdf/imdt_assets/agent-demo-1.jpg" aria-label="Find the blue book real agent replay"><source src="assets/embodied-agent/guided-replay.mp4" type="video/mp4"></video>
+          <video data-demo-video playsinline preload="metadata" poster="final_pdf/imdt_assets/agent-demo-1.jpg" aria-label="Find the blue book real agent replay frames"><source src="assets/embodied-agent/guided-replay.mp4" type="video/mp4"></video>
           <img data-demo-image src="final_pdf/imdt_assets/agent-demo-1.jpg" alt="Find the blue book guided replay frame" hidden>
           <div class="agent-demo__hud"><span>AI2-THOR / RGB-D</span><span>SESSION 03-A</span></div>
           <i class="agent-demo__reticle" aria-hidden="true"></i>
@@ -57,10 +57,10 @@
         </figure>
         <div class="agent-demo__console">
           <ol class="agent-demo__steps" aria-label="执行阶段">
-            <li data-demo-step><span>01 / PERCEIVE</span><b>RGB-D observation indexed</b></li>
-            <li data-demo-step><span>02 / PLAN</span><b>Shelf → desk → side table</b></li>
-            <li data-demo-step><span>03 / EXECUTE</span><b>Frontier search · 7 actions</b></li>
-            <li data-demo-step><span>04 / VERIFY</span><b>Blue book visible · passed</b></li>
+            <li data-demo-step role="button" tabindex="0"><span>01 / PERCEIVE</span><b>RGB-D observation indexed</b></li>
+            <li data-demo-step role="button" tabindex="0"><span>02 / PLAN</span><b>Shelf → desk → side table</b></li>
+            <li data-demo-step role="button" tabindex="0"><span>03 / EXECUTE</span><b>Frontier search · 7 actions</b></li>
+            <li data-demo-step role="button" tabindex="0"><span>04 / VERIFY</span><b>Blue book visible · passed</b></li>
           </ol>
           <div class="agent-demo__actions"><output class="agent-demo__status" data-demo-status aria-live="polite">READY / SELECT A TASK</output><button class="agent-demo__run" type="button" data-demo-run>RUN GUIDED DEMO</button></div>
           <div class="agent-demo__progress" aria-hidden="true"><i></i></div>
