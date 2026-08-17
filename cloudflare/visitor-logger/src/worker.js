@@ -22,9 +22,10 @@ export default {
     const visitorId = typeof payload.visitorId === 'string' && /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(payload.visitorId)
       ? payload.visitorId
       : '';
+    const eventType = payload.eventType === 'portfolio_download' ? payload.eventType : 'page_view';
     const write = env.DB.prepare(`
-      INSERT INTO visits (visited_at, page, ip, country, region, city, visitor_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO visits (visited_at, page, ip, country, region, city, visitor_id, event_type)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `).bind(
       new Date().toISOString(),
       payload.page.slice(0, 500),
@@ -32,7 +33,8 @@ export default {
       cf.country || '',
       cf.region || '',
       cf.city || '',
-      visitorId
+      visitorId,
+      eventType
     ).run();
     ctx.waitUntil(write);
 

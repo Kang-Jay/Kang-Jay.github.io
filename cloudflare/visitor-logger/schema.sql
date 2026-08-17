@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS visits (
   country TEXT,
   region TEXT,
   city TEXT,
-  visitor_id TEXT NOT NULL DEFAULT ''
+  visitor_id TEXT NOT NULL DEFAULT '',
+  event_type TEXT NOT NULL DEFAULT 'page_view'
 );
 
 CREATE INDEX IF NOT EXISTS visits_visited_at ON visits (visited_at);
